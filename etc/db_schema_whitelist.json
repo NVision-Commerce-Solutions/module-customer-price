@@ -1,0 +1,32 @@
+{
+    "commerce365_cached_price": {
+        "column": {
+            "id": true,
+            "product_id": true,
+            "customer_id": true,
+            "price_data": true,
+            "last_updated": true
+        },
+        "index": {
+            "COMMERCE365_CACHED_PRICE_PRODUCT_ID_CUSTOMER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "COMMERCE365_CACHED_PRICE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true,
+            "COMMERCE365_CACHED_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
+            "COMMERCE365_CACHED_PRICE_PRODUCT_ID_CUSTOMER_ID": true
+        }
+    },
+    "commerce365_customer_price_token": {
+        "column": {
+            "id": true,
+            "customer_id": true,
+            "token": true
+        },
+        "constraint": {
+            "COMMERCE365_CSTR_PRICE_TOKEN_CSTR_ID_CSTR_ENTT_ENTT_ID": true,
+            "COMMERCE365_CUSTOMER_PRICE_TOKEN_CUSTOMER_ID": true,
+            "PRIMARY": true
+        }
+    }
+}

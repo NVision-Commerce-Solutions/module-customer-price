@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Pricing\Amount\Base">
+        <plugin name="commerce365_frontend_hide_final_price"
+                type="Commerce365\CustomerPrice\Plugin\Frontend\HideFinalPrice"/>
+    </type>
+    <type name="Magento\Catalog\Pricing\Price\TierPrice">
+        <plugin name="commerce365_frontend_pricing_tierprice" type="Commerce365\CustomerPrice\Plugin\Frontend\TierPricePlugin" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Pricing\Render\FinalPriceBox">
+        <plugin name="commerce365_frontend_check_price_ajax_load"
+                type="Commerce365\CustomerPrice\Plugin\Frontend\CheckPriceAjaxLoad"
+                sortOrder="20"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="commerce365_frontend_pricing_product" type="Commerce365\CustomerPrice\Plugin\Frontend\ProductPlugin" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\Price">
+        <plugin name="commerce365_simple_price_plugin"
+                type="Commerce365\CustomerPrice\Plugin\Frontend\SimplePricePlugin"
+                sortOrder="10"/>
+    </type>
+    <preference for="Magento\Catalog\Block\Product\View" type="Commerce365\CustomerPrice\Block\Product\View"/>
+    <type name="Magento\GroupedProduct\Pricing\Price\FinalPrice">
+        <plugin name="commerce365_frontend_grouped_product_plugin"
+                type="Commerce365\CustomerPrice\Plugin\Frontend\GroupedProductPlugin"/>
+    </type>
+    <type name="Magento\Framework\Pricing\Render\PriceBox">
+        <plugin name="commerce365_frontend_pricebox_plugin"
+                type="Commerce365\CustomerPrice\Plugin\Frontend\PriceBoxPlugin"/>
+    </type>
+</config>

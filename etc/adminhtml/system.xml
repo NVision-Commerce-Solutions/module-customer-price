@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="commerce365config_general">
+            <group id="b2b_pricing" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>B2B Pricing (AJAX)</label>
+                <field id="ajax_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>B2B Pricing Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="db_caching_enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>DB Caching</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[This type of caching works only with Ajax Price Loading]]></comment>
+                    <depends>
+                        <field id="ajax_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_hours" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Cache Hours</label>
+                    <comment><![CDATA[Enter number of hours for DB Caching]]></comment>
+                    <validate>validate-greater-than-zero validate-number required-entry</validate>
+                    <depends>
+                        <field id="ajax_enabled">1</field>
+                        <field id="db_caching_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="flush_cache" translate="label comment" type="button" sortOrder="300" showInDefault="1">
+                    <frontend_model>Commerce365\CustomerPrice\Block\Adminhtml\System\Config\Buttons\FlushCache</frontend_model>
+                    <depends>
+                        <field id="ajax_enabled">1</field>
+                        <field id="db_caching_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="hide_prices_guest" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Hide Prices for Guest Users</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="ajax_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="use_special_price" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Use Special Price</label>
+                    <comment>Customer Price cache will be cleaned after you change this setting</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

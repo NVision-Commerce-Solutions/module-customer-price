@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Commerce365\CustomerPrice\Api\CustomerPriceInterface"
+                type="Commerce365\CustomerPrice\Model\CustomerPrice"/>
+    <preference for="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapperInterface"
+                type="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapper"/>
+
+    <virtualType name="Commerce365CustomerPriceSyncHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/Commerce365CustomerPriceSync.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Commerce365CustomerPriceSyncLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Commerce365CustomerPriceSyncHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Commerce365\CustomerPrice\Model\CustomerPrice">
+        <arguments>
+            <argument name="logger" xsi:type="object">Commerce365CustomerPriceSyncLogger</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Pricing\Render\Amount">
+        <plugin name="commerce365_list_price_check_ajax_call"
+                type="Commerce365\CustomerPrice\Plugin\ListCheckAjaxPriceCall"
+                sortOrder="20"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="commerce365_pricing_product" type="Commerce365\CustomerPrice\Plugin\ProductPrice" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\CustomerData\Customer">
+        <plugin name="commerce365_add_customer_token"
+                type="Commerce365\CustomerPrice\Plugin\AddCustomerToken"/>
+    </type>
+</config>

@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Commerce365\CustomerPrice\Service;
+
+use Magento\Catalog\Model\Product;
+use Magento\Customer\Api\GroupManagementInterface;
+
+class GetPriceForQuantity
+{
+    private GetProductPriceData $getProductPriceData;
+    private GroupManagementInterface $groupManagement;
+
+    /**
+     * @param GetProductPriceData $getProductPriceData
+     * @param GroupManagementInterface $groupManagement
+     */
+    public function __construct(
+        GetProductPriceData $getProductPriceData,
+        GroupManagementInterface $groupManagement
+    ) {
+        $this->getProductPriceData = $getProductPriceData;
+        $this->groupManagement = $groupManagement;
+    }
+
+    public function execute(Product $product, $customerId, $qty = null)
+    {
+        $priceData = $this->getProductPriceData->execute($product->getId(), $customerId);
+        if (empty($priceData->getTierPrices())) {
+            if ($qty !== null) {
+                return $priceData->getPrice();
+            }
+
+            return [
+                [
+                    'price' => $priceData->getPrice(),
+                    'website_price' => $priceData->getPrice(),
+                    'price_qty' => 1,
+                    'cust_group' => $this->getAllCustomerGroupsId(),
+                ]
+            ];
+        }
+
+        $prevQty = 0;
+        $prevPrice = $priceData->getPrice();
+        foreach ($priceData->getTierPrices() as $tierPrice) {
+            if ($qty < $tierPrice['qty']) {
+                // tier is higher than product qty
+                continue;
+            }
+            if ($tierPrice['qty'] < $prevQty) {
+                // higher tier qty already found
+                continue;
+            }
+
+            if ($tierPrice['price'] < $prevPrice) {
+                $prevPrice = $tierPrice['price'];
+                $prevQty = $tierPrice['qty'];
+            }
+        }
+
+        return $prevPrice;
+    }
+
+    /**
+     * Gets the CUST_GROUP_ALL id
+     *
+     * @return int
+     */
+    protected function getAllCustomerGroupsId()
+    {
+        // ex: 32000
+        return $this->groupManagement->getAllCustomersGroup()->getId();
+    }
+}

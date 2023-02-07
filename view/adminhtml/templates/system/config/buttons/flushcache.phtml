@@ -1,0 +1,17 @@
+<?php
+
+/** @var \Commerce365\CustomerPrice\Block\Adminhtml\System\Config\Buttons\FlushCache $block */
+?>
+<div id="commerce365-configuration-flushcache-wrapper">
+     <?= $block->getButtonHtml() ?>
+     <div class="indicator" id="commerce365-configuration-flushcache-indicator">
+
+          <img class="check_processing" hidden="hidden" alt="Processing"
+               src="<?= $block->getViewFileUrl('images/process_spinner.gif') ?>" />
+          <img class="check_success" hidden="hidden" alt="Success"
+               src="<?= $block->getViewFileUrl('images/rule_component_apply.gif') ?>" />
+          <img class="check_error" hidden="hidden" alt="Error"
+               src="<?= $block->getViewFileUrl('images/rule_component_remove.gif') ?>" />
+               <span id="flushcache_message_span"></span>
+          </div>
+</div>

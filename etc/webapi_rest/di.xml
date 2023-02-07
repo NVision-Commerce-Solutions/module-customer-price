@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Pricing\Price\TierPrice">
+        <plugin name="commerce365_webapi_pricing_tierprice" type="Commerce365\CustomerPrice\Plugin\Webapi\TierPricePlugin" sortOrder="1" />
+    </type>
+    <type name="Magento\ConfigurableProduct\Pricing\Price\FinalPrice">
+        <plugin name="commerce365_configurable_final_price"
+                type="Commerce365\CustomerPrice\Plugin\Webapi\ConfigurableFinalPricePlugin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="commerce365_add_sales_channel_info" type="Magento\InventoryConfigurableProductFrontendUi\Plugin\ConfigurableProduct\Block\Product\View\Type\AddAdditionalInfo"/>
+    </type>
+</config>

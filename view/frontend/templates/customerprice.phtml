@@ -1,0 +1,22 @@
+<?php
+/** @var \Commerce365\CustomerPrice\ViewModel\CustomerPrice $block */
+
+$viewModel = $block->getData('viewModel'); ?>
+<?php if ($viewModel->isLoggedIn() && $viewModel->isAjaxEnabled()): ?>
+    <script type="text/x-magento-init">
+        {
+         "*": {
+                "Magento_Ui/js/core/app": {
+                   "components": {
+                        "customerprice": {
+                            "component": "Commerce365_CustomerPrice/js/customerprice"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        window.customerpriceConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($viewModel->getConfig()); ?>;
+    </script>
+<?php endif; ?>
