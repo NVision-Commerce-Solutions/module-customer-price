@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
-use Magento\Catalog\Model\Product\Type;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
@@ -12,17 +11,21 @@ class GetProductCollectionWithCustomerPrices
 {
     private CollectionFactory $productCollectionFactory;
     private GetPriceCollectionForProducts $getPriceCollectionForProducts;
+    private GetProductIdsForRequest $getProductIdsForRequest;
 
     /**
      * @param CollectionFactory $productCollectionFactory
      * @param GetPriceCollectionForProducts $getPriceCollectionForProducts
+     * @param GetProductIdsForRequest $getProductIdsForRequest
      */
     public function __construct(
         CollectionFactory $productCollectionFactory,
-        GetPriceCollectionForProducts $getPriceCollectionForProducts
+        GetPriceCollectionForProducts $getPriceCollectionForProducts,
+        GetProductIdsForRequest $getProductIdsForRequest
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->getPriceCollectionForProducts = $getPriceCollectionForProducts;
+        $this->getProductIdsForRequest = $getProductIdsForRequest;
     }
 
     /**
@@ -43,12 +46,7 @@ class GetProductCollectionWithCustomerPrices
             return $productCollection;
         }
 
-        $productIds = [];
-        foreach ($productCollection as $product) {
-            if ($product->getTypeId() === Type::DEFAULT_TYPE) {
-                $productIds[] = $product->getId();
-            }
-        }
+        $productIds = $this->getProductIdsForRequest->execute($productCollection);
         $priceCollection = $this->getPriceCollectionForProducts->execute($productIds, $customerId);
         $this->updateProductCollection($productCollection, $priceCollection);
 
@@ -60,7 +58,7 @@ class GetProductCollectionWithCustomerPrices
         $productIdsToLoad = [];
         foreach ($productCollection as $product) {
             $item = $priceCollection->getItemByColumnValue('productId', $product->getId());
-            if (!$item) {
+            if (!$item || $item->getPrice() <= 0) {
                 continue;
             }
             $product->setPrice($item->getPrice());

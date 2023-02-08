@@ -41,7 +41,7 @@ class ResponseToDatabaseMapper implements ResponseToDatabaseMapperInterface
             if (empty($priceData)) {
                 continue;
             }
-            $dataToInsert = [
+            $dataToInsert[] = [
                 'product_id' => $item['productId'],
                 'customer_id' => $customerId,
                 'price_data' => $this->serializer->serialize($priceData),

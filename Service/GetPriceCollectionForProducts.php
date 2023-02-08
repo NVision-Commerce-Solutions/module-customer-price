@@ -31,6 +31,7 @@ class GetPriceCollectionForProducts
     public function execute(array $productIds, $customerId)
     {
         $productIdsToLoad = [];
+
         $priceCollection = $this->getCachedPriceCollection->execute($productIds, $customerId);
         /** @var CachedPrice $item */
         foreach ($productIds as $productId) {
@@ -61,6 +62,6 @@ class GetPriceCollectionForProducts
         //Trigger call when cache hours expired for an item or non-existing
         $priceData = $this->syncPrices->execute($productIdsToLoad, $customerId);
 
-        return $this->priceCollectionBuilder->build([$priceData], $customerId);
+        return $this->priceCollectionBuilder->build($priceData, $customerId);
     }
 }

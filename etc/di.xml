@@ -5,6 +5,7 @@
                 type="Commerce365\CustomerPrice\Model\CustomerPrice"/>
     <preference for="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapperInterface"
                 type="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapper"/>
+    <preference for="Magento\Catalog\Block\Product\View" type="Commerce365\CustomerPrice\Block\Product\View"/>
 
     <virtualType name="Commerce365CustomerPriceSyncHandler" type="Magento\Framework\Logger\Handler\Base">
         <arguments>

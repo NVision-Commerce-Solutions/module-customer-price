@@ -90,6 +90,7 @@ class ProductPrice
      */
     private function isPriceCallAvailable(): bool
     {
-        return $this->customerSessionFactory->create()->isLoggedIn() && $this->config->isAjaxEnabled();
+        return $this->customerSessionFactory->create()->isLoggedIn()
+            && $this->config->isAjaxEnabled();
     }
 }

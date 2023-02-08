@@ -24,8 +24,8 @@ class GetProductPriceData
             return $this->priceData[$productId];
         }
         $this->priceData[$productId] = $this->getPriceCollectionForProduct
-        ->execute([$productId], $customerId)
-        ->getFirstItem();
+            ->execute([$productId], $customerId)
+            ->getFirstItem();
 
         return $this->priceData[$productId];
     }
