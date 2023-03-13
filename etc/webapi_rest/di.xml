@@ -12,4 +12,8 @@
     <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
         <plugin name="commerce365_add_sales_channel_info" type="Magento\InventoryConfigurableProductFrontendUi\Plugin\ConfigurableProduct\Block\Product\View\Type\AddAdditionalInfo"/>
     </type>
+    <type name="Magento\Framework\View\Element\Template\File\Resolver">
+        <plugin name="commerce365_change_area_for_templates"
+                type="Commerce365\CustomerPrice\Plugin\Webapi\ChangeAreaForTemplates"/>
+    </type>
 </config>
