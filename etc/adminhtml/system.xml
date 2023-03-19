@@ -3,7 +3,7 @@
     <system>
         <section id="commerce365config_general">
             <group id="b2b_pricing" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="1">
-                <label>B2B Pricing (AJAX)</label>
+                <label>B2B Pricing</label>
                 <field id="ajax_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>B2B Pricing Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
