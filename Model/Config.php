@@ -13,6 +13,7 @@ class Config
     private const XML_PATH_CACHE_HOURS = 'commerce365config_general/b2b_pricing/cache_hours';
     public const XML_PATH_SPECIAL_PRICE = 'commerce365config_general/b2b_pricing/use_special_price';
     private const XML_PATH_CACHE_ENABLE = 'commerce365config_general/b2b_pricing/db_caching_enabled';
+    private const XML_PATH_SHOW_UOM = 'commerce365config_general/b2b_pricing/show_priceperuom';
 
     private ScopeConfigInterface $scopeConfig;
 
@@ -56,5 +57,10 @@ class Config
     public function getCacheHours()
     {
         return $this->scopeConfig->getValue(self::XML_PATH_CACHE_HOURS);
+    }
+
+    public function showPricePerUom()
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM);
     }
 }
