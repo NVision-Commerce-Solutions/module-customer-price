@@ -16,4 +16,9 @@
         <plugin name="commerce365_change_area_for_templates"
                 type="Commerce365\CustomerPrice\Plugin\Webapi\ChangeAreaForTemplates"/>
     </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="commerce365_additional_data_plugin"
+                type="Commerce365\CustomerPrice\Plugin\Webapi\AdditionalDataPlugin"
+                sortOrder="10"/>
+    </type>
 </config>

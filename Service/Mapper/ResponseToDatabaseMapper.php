@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service\Mapper;
 
 use Commerce365\CustomerPrice\Model\Config;
+use Commerce365\CustomerPrice\Service\Additional\AdditionalDataBuilder;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Stdlib\DateTime;
 
@@ -13,6 +14,7 @@ class ResponseToDatabaseMapper implements ResponseToDatabaseMapperInterface
     private SerializerInterface $serializer;
     private DateTime $dateTime;
     private Config $config;
+    private AdditionalDataBuilder $additionalDataBuilder;
 
     /**
      * @param SerializerInterface $serializer
@@ -22,11 +24,13 @@ class ResponseToDatabaseMapper implements ResponseToDatabaseMapperInterface
     public function __construct(
         SerializerInterface $serializer,
         DateTime $dateTime,
-        Config $config
+        Config $config,
+        AdditionalDataBuilder $additionalDataBuilder
     ) {
         $this->serializer = $serializer;
         $this->dateTime = $dateTime;
         $this->config = $config;
+        $this->additionalDataBuilder = $additionalDataBuilder;
     }
 
     public function map(array $priceResponse, $customerId)
@@ -66,6 +70,7 @@ class ResponseToDatabaseMapper implements ResponseToDatabaseMapperInterface
                     $priceData['price'] = $price['salesPrice'];
                     $priceData['special_price'] = $price['price'];
                 }
+                $priceData['additional'] = $this->additionalDataBuilder->build($price, $item['productId']);
             } else {
                 $tierPrices[] = [
                     'qty' => $price['minimumQuantity'],

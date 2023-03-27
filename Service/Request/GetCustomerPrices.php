@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service\Request;
 
 use Commerce365\Core\Service\Request\Post;
-use Magento\Store\Model\StoreManagerInterface;
+use Commerce365\CustomerPrice\Service\Customer\CurrencyResolver;
 
 class GetCustomerPrices
 {
     private Post $post;
-    private StoreManagerInterface $storeManager;
+    private CurrencyResolver $currencyResolver;
 
     /**
      * @param Post $post
-     * @param StoreManagerInterface $storeManager
+     * @param CurrencyResolver $currencyResolver
      */
     public function __construct(
         Post $post,
-        StoreManagerInterface $storeManager
+        CurrencyResolver $currencyResolver
     ) {
         $this->post = $post;
-        $this->storeManager = $storeManager;
+        $this->currencyResolver = $currencyResolver;
     }
 
     public function execute($productIds, $customerId)
@@ -30,7 +30,7 @@ class GetCustomerPrices
             'json' => [
                 'CustomerId' => (int) $customerId,
                 'ProductIds' => array_values(array_map('intval', $productIds)),
-                'CurrencyCode' => $this->storeManager->getStore()->getCurrentCurrency()->getCode(),
+                'CurrencyCode' => $this->currencyResolver->resolve($customerId),
                 'UnitofMeasureCode' => ''
             ],
             'allow_redirects'=> ['strict' => true]

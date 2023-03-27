@@ -44,6 +44,10 @@
                     <comment>Customer Price cache will be cleaned after you change this setting</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="show_priceperuom" translate="label" type="select" sortOrder="310" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show Price Per UOM   </label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>
