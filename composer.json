@@ -1,11 +1,12 @@
 {
     "name": "commerce365/module-customer-price",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "N/A",
     "type": "magento2-module",
     "require": {
         "magento/framework": "*",
-        "magento/module-catalog": "104.0.*"
+        "magento/module-catalog": "104.0.*",
+        "commerce365/module-core": "1.1.*"
     },
     "license": [
         "OSL-3.0"

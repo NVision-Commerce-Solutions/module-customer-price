@@ -17,6 +17,6 @@ $viewModel = $block->getData('viewModel'); ?>
         }
     </script>
     <script type="text/javascript">
-        window.customerpriceConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($viewModel->getConfig()); ?>;
+        window.customerpriceConfig = <?= $viewModel->getConfig() ?>;
     </script>
 <?php endif; ?>
