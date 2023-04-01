@@ -62,5 +62,7 @@ class AddCustomerCurrencyAttribute implements DataPatchInterface
         $attribute = $this->eavConfig->getAttribute(Customer::ENTITY, self::ATTRIBUTE_NAME);
 
         $attribute->setData('used_in_forms', ['adminhtml_customer'])->save();
+
+        return $this;
     }
 }
