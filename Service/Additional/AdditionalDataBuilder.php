@@ -20,7 +20,7 @@ class AdditionalDataBuilder
     {
         return [
             'pricePerUOM' => $this->getPricePerUom($priceInfo, $productId),
-            'UOM' => $priceInfo['uoM']
+            'UOM' => $priceInfo['uoM'] ?? ''
         ];
     }
 
