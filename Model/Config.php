@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
 
 class Config
 {
@@ -27,7 +28,7 @@ class Config
      */
     public function isAjaxEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_AJAX_ENABLED);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_AJAX_ENABLED, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -35,7 +36,7 @@ class Config
      */
     public function isCachingEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_CACHE_ENABLE);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_CACHE_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
     }
 
     /**
@@ -43,7 +44,7 @@ class Config
      */
     public function isHidePricesGuest(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_HIDE_PRICES);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_HIDE_PRICES, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -51,16 +52,16 @@ class Config
      */
     public function useSpecialPrice(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_SPECIAL_PRICE);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_SPECIAL_PRICE, ScopeInterface::SCOPE_STORE);
     }
 
     public function getCacheHours()
     {
-        return $this->scopeConfig->getValue(self::XML_PATH_CACHE_HOURS);
+        return $this->scopeConfig->getValue(self::XML_PATH_CACHE_HOURS, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
     }
 
     public function showPricePerUom()
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM);
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM, ScopeInterface::SCOPE_STORE);
     }
 }
