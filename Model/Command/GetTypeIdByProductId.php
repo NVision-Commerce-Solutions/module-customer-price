@@ -19,7 +19,7 @@ class GetTypeIdByProductId
     public function execute($productId)
     {
         $connection = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(self::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(self::TABLE_NAME);
         $select = $connection->select()
             ->from($tableName, ['type_id'])
             ->where('entity_id = ?', $productId);

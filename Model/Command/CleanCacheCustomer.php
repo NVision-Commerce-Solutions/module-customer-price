@@ -21,8 +21,7 @@ class CleanCacheCustomer
 
     public function execute($customerId)
     {
-        $connection = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(CachedPrice::TABLE_NAME);
-        $connection->delete($tableName, ['customer_id = ?' => $customerId]);
+        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
+        $this->resourceConnection->getConnection()->delete($tableName, ['customer_id = ?' => $customerId]);
     }
 }

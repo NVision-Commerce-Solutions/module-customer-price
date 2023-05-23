@@ -34,9 +34,8 @@ class SetCachedPriceData
         if (empty($dataToInsert)) {
             return true;
         }
-        $connection = $this->resourceConnection->getConnection();
 
-        $tableName = $connection->getTableName(CachedPrice::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
         $this->resourceConnection->getConnection()->insertOnDuplicate($tableName, $dataToInsert);
         return true;
     }
