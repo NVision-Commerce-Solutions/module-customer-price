@@ -20,7 +20,7 @@ class GetCustomerIdByToken
     public function execute(string $token): ?string
     {
         $connection = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(self::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(self::TABLE_NAME);
         $select = $connection->select()
             ->from($tableName, ['customer_id'])
             ->where('token = ?', $token);

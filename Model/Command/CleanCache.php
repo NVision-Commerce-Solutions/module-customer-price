@@ -21,8 +21,7 @@ class CleanCache
 
     public function execute()
     {
-        $connection = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(CachedPrice::TABLE_NAME);
-        $connection->truncateTable($tableName);
+        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
+        $this->resourceConnection->getConnection()->truncateTable($tableName);
     }
 }

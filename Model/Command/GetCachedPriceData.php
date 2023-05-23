@@ -33,7 +33,7 @@ class GetCachedPriceData
 
         $cacheHours = $this->config->getCacheHours();
         $connection = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(CachedPrice::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
         $select = $connection->select()
             ->from($tableName, ['price_data', 'product_id'])
             ->where('product_id  IN(?)', $productIds)

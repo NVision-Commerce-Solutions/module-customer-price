@@ -24,14 +24,12 @@ class SetPriceToken
      */
     public function execute(string $token, $customerId): bool
     {
-        $connection = $this->resourceConnection->getConnection();
-
         $dataToInsert = [
             'customer_id' => $customerId,
             'token' => $token
         ];
 
-        $tableName = $connection->getTableName(self::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(self::TABLE_NAME);
         $this->resourceConnection->getConnection()->insertOnDuplicate($tableName, $dataToInsert);
         return true;
     }
