@@ -19,6 +19,12 @@ class Currency extends AbstractSource implements OptionSourceInterface
 
     public function getAllOptions()
     {
-        return $this->lists->getOptionCurrencies();
+        $options = $this->lists->getOptionCurrencies();
+        array_unshift(
+            $options,
+            ['value' => '', 'label' => 'Default']
+        );
+
+        return $options;
     }
 }
