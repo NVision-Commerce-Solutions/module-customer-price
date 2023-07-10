@@ -36,12 +36,11 @@ class GetProductResponseData
         $blocks = $this->getBlocks($product, $productId);
 
         return [
-            $product->getId() => [
-                'priceHtml' => $blocks['final'],
-                'tierPriceHtml' => $blocks['tier'],
-                'priceConfig' => $blocks['config'],
-                'configurableConfig' => $blocks['configurable']
-            ]
+            'productId' => $product->getId(),
+            'priceHtml' => $blocks['final'],
+            'tierPriceHtml' => $blocks['tier'],
+            'priceConfig' => $blocks['config'],
+            'configurableConfig' => $blocks['configurable']
         ];
     }
 

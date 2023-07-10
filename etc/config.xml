@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <commerce365config_general>
+            <b2b_pricing>
+                <db_caching_enabled>1</db_caching_enabled>
+            </b2b_pricing>
+        </commerce365config_general>
+    </default>
+</config>

@@ -11,7 +11,7 @@ $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
-<?php if ($block->hasSpecialPrice()) :?>
+<?php if ($finalPriceModel->getAmount() < $priceModel->getAmount()) :?>
     <span class="special-price">
         <?= /* @noEscape */ $block->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price'),
