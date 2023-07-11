@@ -38,4 +38,14 @@
         <plugin name="commerce365_add_customer_token"
                 type="Commerce365\CustomerPrice\Plugin\AddCustomerToken"/>
     </type>
+    <virtualType name="Commerce365CustomerPriceModuleVersion" type="Commerce365\Core\Service\Module\Version">
+        <arguments>
+            <argument name="packageName" xsi:type="string">commerce365/module-customer-price</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Commerce365CustomerPriceModuleVersionBlock" type="Commerce365\Core\Block\Adminhtml\Version">
+        <arguments>
+            <argument name="version" xsi:type="object">Commerce365CustomerPriceModuleVersion</argument>
+        </arguments>
+    </virtualType>
 </config>

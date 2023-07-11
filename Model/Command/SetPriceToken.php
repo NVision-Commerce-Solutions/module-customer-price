@@ -24,9 +24,11 @@ class SetPriceToken
      */
     public function execute(string $token, $customerId): bool
     {
+        $validTo = date('Y-m-d H:i:s', strtotime('+ 1 month'));
         $dataToInsert = [
             'customer_id' => $customerId,
-            'token' => $token
+            'token' => $token,
+            'valid_to' => $validTo
         ];
 
         $tableName = $this->resourceConnection->getTableName(self::TABLE_NAME);

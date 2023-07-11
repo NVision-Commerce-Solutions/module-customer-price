@@ -11,7 +11,7 @@
                 <field id="db_caching_enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>DB Caching</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[This type of caching works only with Ajax Price Loading]]></comment>
+                    <comment><![CDATA[This type of caching works only with Ajax Price Loading. Only disable caching in development or test systems. In production systems this should be enabled]]></comment>
                     <depends>
                         <field id="ajax_enabled">1</field>
                     </depends>
@@ -48,6 +48,13 @@
                     <label>Show Price Per UOM   </label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+            </group>
+            <group id="version" >
+                <group id="customer_price_version" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <frontend_model>Commerce365CustomerPriceModuleVersionBlock</frontend_model>
+                    <label><![CDATA[Commerce365 Customer Price Version]]></label>
+                </group>
             </group>
         </section>
     </system>

@@ -21,7 +21,8 @@
         "column": {
             "id": true,
             "customer_id": true,
-            "token": true
+            "token": true,
+            "valid_to": true
         },
         "constraint": {
             "COMMERCE365_CSTR_PRICE_TOKEN_CSTR_ID_CSTR_ENTT_ENTT_ID": true,
