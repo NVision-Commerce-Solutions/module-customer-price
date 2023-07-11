@@ -102,6 +102,7 @@ define([
         reloadSwatches: function (swatches, configurableConfig) {
             var jsonSwatchConfig = swatches.SwatchRenderer('option').jsonSwatchConfig;
             var oldConfigurableConfig = swatches.SwatchRenderer('option').jsonConfig;
+            configurableConfig.mappedAttributes = oldConfigurableConfig.mappedAttributes;
             configurableConfig.images = oldConfigurableConfig.images;
             swatches.SwatchRenderer('option').jsonConfig = configurableConfig;
             swatches.SwatchRenderer({"jsonConfig": configurableConfig, "jsonSwatchConfig": jsonSwatchConfig});
