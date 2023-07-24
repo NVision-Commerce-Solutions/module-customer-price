@@ -48,11 +48,12 @@ class GetProductResponseData
     {
         $tierPriceHtml = $priceConfig = $configurableConfig = '';
         if ($product->getTypeId() === Configurable::TYPE_CODE) {
+            $priceConfig = $this->getPriceConfig->execute($product);
             $configurableConfig = $this->getConfigurableConfig->execute($product);
         }
         if ((int) $product->getId() === (int) $productId) {
             $priceHtml = $this->priceRenderer->renderFinalPrice($product, Render::ZONE_ITEM_VIEW, false);
-            $priceConfig = $this->getPriceConfig->execute($product);
+            $priceConfig = $priceConfig !== '' ? $priceConfig : $this->getPriceConfig->execute($product);
             if ($product->getHasTierPrices()) {
                 $tierPriceHtml = $this->priceRenderer->renderTierPrice($product);
             }

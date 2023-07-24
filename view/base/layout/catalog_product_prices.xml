@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
-    <block class="Magento\Framework\Pricing\Render\RendererPool" name="render.product.prices">
+    <referenceBlock name="render.product.prices">
         <arguments>
             <argument name="default" xsi:type="array">
                 <item name="default_render_class" xsi:type="string">Magento\Catalog\Pricing\Render\PriceBox</item>
@@ -28,5 +28,5 @@
                 </item>
             </argument>
         </arguments>
-    </block>
+    </referenceBlock>
 </layout>
