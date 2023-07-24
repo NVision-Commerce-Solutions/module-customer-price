@@ -58,6 +58,7 @@ class CustomerPrice implements CustomerPriceInterface
             return $response;
         }
 
+        $productInfo = array_unique($productInfo);
         $productCollection = $this->getProductCollectionWithCustomerPrices->execute($storeId, $productInfo, $customerId);
 
         try {

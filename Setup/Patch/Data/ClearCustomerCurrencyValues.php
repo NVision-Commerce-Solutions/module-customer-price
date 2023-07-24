@@ -22,12 +22,13 @@ class ClearCustomerCurrencyValues implements DataPatchInterface
         $this->resourceConnection = $resourceConnection;
     }
 
-    public function apply()
+    public function apply(): void
     {
         $attribute = $this->attributeRepository->get(Customer::ENTITY, 'bc_customer_currency');
+        $tableName = $this->resourceConnection->getTableName('customer_entity_varchar');
         $this->resourceConnection->getConnection()
             ->delete(
-                'customer_entity_varchar',
+                $tableName,
                 ['attribute_id = ?' => $attribute->getAttributeId()]
             );
     }

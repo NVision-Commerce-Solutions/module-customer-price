@@ -31,7 +31,7 @@ class GetProductResponseData
         $this->getConfigurableConfig = $getConfigurableConfig;
     }
 
-    public function execute($product, $productId)
+    public function execute($product, $productId): array
     {
         $blocks = $this->getBlocks($product, $productId);
 
@@ -47,14 +47,14 @@ class GetProductResponseData
     private function getBlocks($product, $productId)
     {
         $tierPriceHtml = $priceConfig = $configurableConfig = '';
+        if ($product->getTypeId() === Configurable::TYPE_CODE) {
+            $configurableConfig = $this->getConfigurableConfig->execute($product);
+        }
         if ((int) $product->getId() === (int) $productId) {
             $priceHtml = $this->priceRenderer->renderFinalPrice($product, Render::ZONE_ITEM_VIEW, false);
             $priceConfig = $this->getPriceConfig->execute($product);
             if ($product->getHasTierPrices()) {
                 $tierPriceHtml = $this->priceRenderer->renderTierPrice($product);
-            }
-            if ($product->getTypeId() === Configurable::TYPE_CODE) {
-                $configurableConfig = $this->getConfigurableConfig->execute($product);
             }
         } else {
             $priceHtml = $this->priceRenderer->renderFinalPrice($product, Render::ZONE_ITEM_LIST);
