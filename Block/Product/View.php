@@ -20,15 +20,6 @@ class View extends \Magento\Catalog\Block\Product\View
             $tierPrices[] = $tierPriceData;
         }
 
-        if (!$this->hasOptions()) {
-            $config = [
-                'productId' => $product->getId(),
-                'priceFormat' => $this->_localeFormat->getPriceFormat(),
-                'tierPrices' => $tierPrices
-            ];
-            return $this->_jsonEncoder->encode($config);
-        }
-
         $config = [
             'productId'   => (int)$product->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
@@ -50,11 +41,16 @@ class View extends \Magento\Catalog\Block\Product\View
                     //Fixed cast to type
                     'amount'      => (int) $priceInfo->getPrice('final_price')->getAmount()->getValue() * 1,
                     'adjustments' => []
-                ]
+                ],
+                'tierPrices' => $tierPrices
             ],
             'idSuffix'    => '_clone',
             'tierPrices'  => $tierPrices
         ];
+
+        if (!$this->hasOptions()) {
+            return $this->_jsonEncoder->encode($config);
+        }
 
         $responseObject = new \Magento\Framework\DataObject();
         $this->_eventManager->dispatch('catalog_product_view_config', ['response_object' => $responseObject]);

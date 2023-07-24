@@ -24,6 +24,7 @@ class GetConfigurableConfig
     {
         $block = $this->getBlock();
         $block->setProductId($product->getId());
+        $block->setProduct($product);
         return $block->getJsonConfig();
     }
 

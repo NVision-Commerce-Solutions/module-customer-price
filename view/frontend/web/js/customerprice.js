@@ -64,30 +64,46 @@ define([
                             const tierPrice = this.getElementFromHtml(productInfo.tierPriceHtml);
                             element.parentNode.after(tierPrice);
                         }
-                        if (productInfo.priceConfig) {
-                            self.options.priceConfig = JSON.parse(productInfo.priceConfig);
-                        }
-                        if (productInfo.configurableConfig) {
-                            self.options.configurableConfig = JSON.parse(productInfo.configurableConfig);
-                        }
                         element.outerHTML = productInfo.priceHtml;
+                        self.processPriceConfig(productInfo.priceConfig, productInfo.productId);
+                        self.processConfigurable(productInfo.configurableConfig, productInfo.productId);
                     });
                 } catch (e) {
                     console.log(e);
                 }
             });
+        },
 
-            if (self.options.priceConfig) {
-                var priceBox = $(self.options.priceBoxSelector);
-                priceBox.priceBox({"priceConfig": self.options.priceConfig});
+        processPriceConfig: function (config, productId) {
+            if (!config) {
+                return;
             }
+            config = JSON.parse(config);
+            var priceBox = '';
+            if (this.customerpriceObj.productId) {
+                priceBox = $(this.options.priceBoxSelector);
+            } else {
+                priceBox = $('[data-price-box=product-id-' + productId + ']')
+            }
+            priceBox.priceBox({"priceConfig": config});
+        },
 
-            if (self.options.configurableConfig) {
-                var swatches = $(self.options.swatchSelector);
+        processConfigurable: function (config, productId) {
+            if (!config) {
+                return;
+            }
+            config = JSON.parse(config);
+            if (this.customerpriceObj.productId) {
+                var swatches = $(this.options.swatchSelector);
                 if (swatches.length) {
-                    self.reloadSwatches(swatches, self.options.configurableConfig);
+                    this.reloadSwatches(swatches, config);
                 } else {
-                    self.reloadConfigurable(self.options.configurableConfig);
+                    this.reloadConfigurable(config);
+                }
+            } else {
+                var swatches = $('[data-role=swatch-option-' + productId + ']');
+                if (swatches.length) {
+                    this.reloadSwatches(swatches, config);
                 }
             }
         },
