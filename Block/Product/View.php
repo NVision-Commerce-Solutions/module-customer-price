@@ -62,9 +62,4 @@ class View extends \Magento\Catalog\Block\Product\View
 
         return $this->_jsonEncoder->encode($config);
     }
-
-    public function getProduct()
-    {
-        return $this->getProductInstance();
-    }
 }
