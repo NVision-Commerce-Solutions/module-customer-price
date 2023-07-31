@@ -93,7 +93,7 @@ define([
                 return;
             }
             config = JSON.parse(config);
-            if (this.customerpriceObj.productId) {
+            if (this.customerpriceObj.productId && this.customerpriceObj.productId === productId) {
                 var swatches = $(this.options.swatchSelector);
                 if (swatches.length) {
                     this.reloadSwatches(swatches, config);
