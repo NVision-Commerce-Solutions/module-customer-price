@@ -30,7 +30,7 @@ class View extends \Magento\Catalog\Block\Product\View
                 ],
                 'oldPrice'   => [
                     //Fixed cast to type
-                    'amount'      => (int) $priceInfo->getPrice('regular_price')->getAmount()->getValue() * 1,
+                    'amount'      => $priceInfo->getPrice('regular_price')->getAmount()->getValue() * 1,
                     'adjustments' => []
                 ],
                 'basePrice'  => [
@@ -39,7 +39,7 @@ class View extends \Magento\Catalog\Block\Product\View
                 ],
                 'finalPrice' => [
                     //Fixed cast to type
-                    'amount'      => (int) $priceInfo->getPrice('final_price')->getAmount()->getValue() * 1,
+                    'amount'      => $priceInfo->getPrice('final_price')->getAmount()->getValue() * 1,
                     'adjustments' => []
                 ],
                 'tierPrices' => $tierPrices

@@ -24,6 +24,7 @@ class GetPriceConfig
     {
         $block = $this->getBlock();
         $block->setProductId($product->getId());
+        $block->setProductInstance($product);
         return $block->getJsonConfig();
     }
 
