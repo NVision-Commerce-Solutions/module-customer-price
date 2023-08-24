@@ -65,7 +65,7 @@ define([
                             element.parentNode.after(tierPrice);
                         }
                         element.outerHTML = productInfo.priceHtml;
-                        self.processPriceConfig(productInfo.priceConfig, productInfo.productId);
+                        self.processPriceConfig(productInfo.priceConfig, productInfo.productId, productInfo.tierPriceHtml);
                         self.processConfigurable(productInfo.configurableConfig, productInfo.productId);
                     });
                 } catch (e) {
@@ -74,7 +74,7 @@ define([
             });
         },
 
-        processPriceConfig: function (config, productId) {
+        processPriceConfig: function (config, productId, tierPrice) {
             if (!config) {
                 return;
             }
@@ -86,6 +86,7 @@ define([
                 priceBox = $('[data-price-box=product-id-' + productId + ']')
             }
             priceBox.priceBox({"priceConfig": config});
+            if (tierPrice) priceBox.priceBox('updateProductTierPrice');
         },
 
         processConfigurable: function (config, productId) {
