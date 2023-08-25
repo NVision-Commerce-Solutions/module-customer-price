@@ -80,13 +80,13 @@ define([
             }
             config = JSON.parse(config);
             var priceBox = '';
-            if (this.customerpriceObj.productId) {
+            if (this.customerpriceObj.productId && this.customerpriceObj.productId === productId) {
                 priceBox = $(this.options.priceBoxSelector);
+                if (tierPrice) priceBox.priceBox('updateProductTierPrice');
             } else {
                 priceBox = $('[data-price-box=product-id-' + productId + ']')
             }
             priceBox.priceBox({"priceConfig": config});
-            if (tierPrice) priceBox.priceBox('updateProductTierPrice');
         },
 
         processConfigurable: function (config, productId) {
