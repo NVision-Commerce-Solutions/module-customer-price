@@ -76,7 +76,7 @@ class ProductPrice
             );
 
             if (!$priceData->getSpecialPrice()) {
-                return $result;
+                return null;
             }
 
             return $priceData->getSpecialPrice();
