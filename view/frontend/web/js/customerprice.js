@@ -61,11 +61,13 @@ define([
                 try {
                     document.querySelectorAll("[data-price-box=product-id-" + productInfo.productId + "]").forEach(element => {
                         if (productInfo.tierPriceHtml) {
-                            const tierPrice = this.getElementFromHtml(productInfo.tierPriceHtml);
-                            element.parentNode.after(tierPrice);
+                            this.processTierPrices(productInfo, element)
                         }
                         element.outerHTML = productInfo.priceHtml;
-                        self.processPriceConfig(productInfo.priceConfig, productInfo.productId, productInfo.tierPriceHtml);
+                        if (productInfo.type !== 'grouped_child') {
+                            self.processPriceConfig(productInfo);
+                        }
+
                         self.processConfigurable(productInfo.configurableConfig, productInfo.productId);
                     });
                 } catch (e) {
@@ -74,19 +76,32 @@ define([
             });
         },
 
-        processPriceConfig: function (config, productId, tierPrice) {
-            if (!config) {
+        processTierPrices: function (productInfo, element) {
+            if (productInfo.type === 'grouped_child') {
+                const tierPriceElementTr = document.createElement('tr');
+                tierPriceElementTr.classList.add('row-tier-price');
+                const tierPriceElementTd = document.createElement('td');
+                tierPriceElementTd.setAttribute('colspan', 2);
+                tierPriceElementTd.innerHTML = productInfo.tierPriceHtml;
+                tierPriceElementTr.appendChild(tierPriceElementTd);
+                element.parentNode.parentNode.after(tierPriceElementTr)
+            } else {
+                const tierPrice = this.getElementFromHtml(productInfo.tierPriceHtml);
+                element.parentNode.after(tierPrice);
+            }
+        },
+
+        processPriceConfig: function (productInfo) {
+            if (!productInfo.priceConfig) {
                 return;
             }
-            config = JSON.parse(config);
-            var priceBox = '';
-            if (this.customerpriceObj.productId && this.customerpriceObj.productId === productId) {
-                priceBox = $(this.options.priceBoxSelector);
-                if (tierPrice) priceBox.priceBox('updateProductTierPrice');
-            } else {
-                priceBox = $('[data-price-box=product-id-' + productId + ']')
-            }
+            const config = JSON.parse(productInfo.priceConfig);
+            const priceBox = $('[data-price-box=product-id-' + productInfo.productId + '].price-final_price');
             priceBox.priceBox({"priceConfig": config});
+
+            if (this.customerpriceObj.productId && this.customerpriceObj.productId === productInfo.productId) {
+                if (productInfo.tierPriceHtml && productInfo.type !== 'configurable') priceBox.priceBox('updateProductTierPrice');
+            }
         },
 
         processConfigurable: function (config, productId) {
@@ -107,6 +122,7 @@ define([
                     this.reloadSwatches(swatches, config);
                 }
             }
+            $('#qty').off('input');
         },
 
         getElementFromHtml: function(html) {
@@ -130,7 +146,9 @@ define([
             var oldSpConfig = configurable.configurable('option');
             configurableConfig.attributes = oldSpConfig.spConfig.attributes;
             configurableConfig.images = oldSpConfig.spConfig.images;
+            const tierPriceTemplate = $(oldSpConfig.tierPriceTemplateSelector).html();
             configurable.configurable({"spConfig": configurableConfig});
+            configurable.configurable({"tierPriceTemplate": tierPriceTemplate});
         }
     });
 });

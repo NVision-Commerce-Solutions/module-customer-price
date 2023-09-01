@@ -25,4 +25,8 @@
         <plugin name="commerce365_resolve_block_product"
                 type="Commerce365\CustomerPrice\Plugin\ResolveBlockProduct"/>
     </type>
+    <type name="Magento\ConfigurableProduct\Pricing\Price\ConfigurableRegularPrice">
+        <plugin name="commerce365_configurable_regular_price"
+                type="Commerce365\CustomerPrice\Plugin\Webapi\ConfigurableRegularPricePlugin"/>
+    </type>
 </config>
