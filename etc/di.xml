@@ -48,4 +48,15 @@
             <argument name="version" xsi:type="object">Commerce365CustomerPriceModuleVersion</argument>
         </arguments>
     </virtualType>
+    <type name="Commerce365\CustomerPrice\Service\GetProductResponseData">
+        <arguments>
+            <argument xsi:type="array" name="priceInfoProviders">
+                <item xsi:type="object" name="type">Commerce365\CustomerPrice\Service\PriceInfoProvider\ProductTypeProvider</item>
+                <item xsi:type="object" name="priceHtml">Commerce365\CustomerPrice\Service\PriceInfoProvider\PriceHtmlProvider</item>
+                <item xsi:type="object" name="tierPriceHtml">Commerce365\CustomerPrice\Service\PriceInfoProvider\TierPriceHtmlProvider</item>
+                <item xsi:type="object" name="priceConfig">Commerce365\CustomerPrice\Service\PriceInfoProvider\PriceConfigProvider</item>
+                <item xsi:type="object" name="configurableConfig">Commerce365\CustomerPrice\Service\PriceInfoProvider\ConfigurableConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
