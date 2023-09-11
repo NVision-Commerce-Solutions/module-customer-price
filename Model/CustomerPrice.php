@@ -4,6 +4,7 @@ namespace Commerce365\CustomerPrice\Model;
 
 use Commerce365\CustomerPrice\Api\CustomerPriceInterface;
 use Commerce365\CustomerPrice\Model\Command\GetCustomerIdByToken;
+use Commerce365\CustomerPrice\Service\CurrentCustomer;
 use Commerce365\CustomerPrice\Service\GetProductCollectionWithCustomerPrices;
 use Commerce365\CustomerPrice\Service\GetProductResponseData;
 use Exception;
@@ -16,23 +17,27 @@ class CustomerPrice implements CustomerPriceInterface
     private GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices;
     private GetProductResponseData $getProductResponseData;
     private GetCustomerIdByToken $getCustomerIdByToken;
+    private CurrentCustomer $currentCustomer;
 
     /**
      * @param GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices
      * @param GetProductResponseData $getProductResponseData
      * @param GetCustomerIdByToken $getCustomerIdByToken
+     * @param CurrentCustomer $currentCustomer
      * @param LoggerInterface $logger
      */
     public function __construct(
         GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices,
         GetProductResponseData $getProductResponseData,
         GetCustomerIdByToken $getCustomerIdByToken,
+        CurrentCustomer $currentCustomer,
         LoggerInterface $logger
     ) {
         $this->logger = $logger;
         $this->getProductCollectionWithCustomerPrices = $getProductCollectionWithCustomerPrices;
         $this->getProductResponseData = $getProductResponseData;
         $this->getCustomerIdByToken = $getCustomerIdByToken;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -57,6 +62,7 @@ class CustomerPrice implements CustomerPriceInterface
         if (!$customerId) {
             return $response;
         }
+        $this->currentCustomer->setId($customerId);
 
         $productInfo = array_unique($productInfo);
         $productCollection = $this->getProductCollectionWithCustomerPrices->execute($storeId, $productInfo, $customerId);
