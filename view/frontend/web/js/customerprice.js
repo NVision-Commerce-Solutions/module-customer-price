@@ -19,10 +19,17 @@ define([
         customerpriceObj: window.customerpriceConfig,
 
         initialize: function() {
+            this.createMutationObserver();
+            this.run();
+        },
+
+        run: function(container = null) {
             var payload = [];
-            document.querySelectorAll("[data-role=priceBox]").forEach(element => {
+            container = container ?? document;
+            container.querySelectorAll("[data-role=priceBox]").forEach(element => {
                 payload.push(element.getAttribute('data-product-id'));
             });
+
             if (!parseInt(payload.length)) {
                 return;
             }
@@ -142,13 +149,36 @@ define([
         },
 
         reloadConfigurable: function(configurableConfig) {
-            var configurable = $(this.options.configurableSelector);
-            var oldSpConfig = configurable.configurable('option');
+            const configurable = $(this.options.configurableSelector);
+            let oldSpConfig = configurable.configurable('option');
             configurableConfig.attributes = oldSpConfig.spConfig.attributes;
             configurableConfig.images = oldSpConfig.spConfig.images;
             const tierPriceTemplate = $(oldSpConfig.tierPriceTemplateSelector).html();
             configurable.configurable({"spConfig": configurableConfig});
             configurable.configurable({"tierPriceTemplate": tierPriceTemplate});
+        },
+
+        createMutationObserver: function() {
+            const self = this;
+            var mutationObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function (addedNode) {
+                        if (addedNode instanceof Node && 'querySelectorAll' in addedNode
+                            && addedNode.classList.value !== 'price-box price-final_price') {
+                            self.run(addedNode);
+                        }
+                    });
+                });
+            });
+            const productsContainer = document.querySelector('div.column.main');
+            mutationObserver.observe(productsContainer, {
+                attributes: true,
+                characterData: true,
+                childList: true,
+                subtree: true,
+                attributeOldValue: true,
+                characterDataOldValue: true
+            });
         }
     });
 });

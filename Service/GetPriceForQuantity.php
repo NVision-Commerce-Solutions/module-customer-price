@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
+use Commerce365\CustomerPrice\Model\CachedPrice;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Api\GroupManagementInterface;
 
@@ -42,6 +43,11 @@ class GetPriceForQuantity
             ];
         }
 
+        return $this->getPriceByQtyAndPriceData($priceData, $qty);
+    }
+
+    public function getPriceByQtyAndPriceData(CachedPrice $priceData, $qty)
+    {
         $prevQty = 0;
         $prevPrice = $priceData->getPrice();
         foreach ($priceData->getTierPrices() as $tierPrice) {
