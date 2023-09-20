@@ -48,6 +48,11 @@
                     <label>Show Price Per UOM   </label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="use_minimal_qty" translate="label" type="select" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Minimal Salable Qty</label>
+                    <comment>If Yes it will show tier price by default for minimal salable quantity</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
             <group id="version" >
                 <group id="customer_price_version" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1"

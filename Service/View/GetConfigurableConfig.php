@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service\View;
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\ConfigurableProduct\Block\Product\View\Type\Configurable;
 use Magento\Framework\View\LayoutInterface;
 
@@ -20,7 +20,7 @@ class GetConfigurableConfig
         $this->layout = $layout;
     }
 
-    public function execute(Product $product)
+    public function execute(ProductInterface $product)
     {
         $block = $this->getBlock();
         $block->setProductId($product->getId());
