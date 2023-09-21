@@ -1,28 +1,37 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Commerce365\CustomerPrice\Service;
 
+use Commerce365\CustomerPrice\Model\ResourceModel\GetProductTypeById;
 use Commerce365\CustomerPrice\Service\PriceInfoProvider\PriceInfoProviderInterface;
-use Magento\Catalog\Model\ResourceModel\GetProductTypeById;
+use Commerce365\CustomerPrice\Model\ResourceModel\GetProductTypeByIdFactory;
 use RuntimeException;
 
 class GetProductResponseData
 {
+    /**
+     * @var array
+     */
     private array $priceInfoProviders;
-    private GetProductTypeById $getProductTypeById;
 
     /**
-     * @param GetProductTypeById $getProductTypeById
+     * Type depends on factory result
+     *
+     * @var GetProductTypeById
+     */
+    private $getProductTypeById;
+
+    /**
+     * @param GetProductTypeByIdFactory $getProductTypeByIdFactory
      * @param array $priceInfoProviders
      */
     public function __construct(
-        GetProductTypeById $getProductTypeById,
+        GetProductTypeByIdFactory $getProductTypeByIdFactory,
         array $priceInfoProviders
     ) {
         $this->priceInfoProviders = $priceInfoProviders;
-        $this->getProductTypeById = $getProductTypeById;
+        /** Added for Magento <2.4.5 compatibility */
+        $this->getProductTypeById = $getProductTypeByIdFactory->create();
     }
 
     public function execute($product, $productId): array
