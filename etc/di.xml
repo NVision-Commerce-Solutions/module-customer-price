@@ -5,6 +5,8 @@
                 type="Commerce365\CustomerPrice\Model\CustomerPrice"/>
     <preference for="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapperInterface"
                 type="Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapper"/>
+    <preference for="Magento\ConfigurableProduct\Pricing\Render\TierPriceBox"
+                type="Commerce365\CustomerPrice\Pricing\Render\TierPriceBox"/>
     <preference for="Magento\Catalog\Block\Product\View" type="Commerce365\CustomerPrice\Block\Product\View"/>
 
     <virtualType name="Commerce365CustomerPriceSyncHandler" type="Magento\Framework\Logger\Handler\Base">
@@ -56,6 +58,15 @@
                 <item xsi:type="object" name="tierPriceHtml">Commerce365\CustomerPrice\Service\PriceInfoProvider\TierPriceHtmlProvider</item>
                 <item xsi:type="object" name="priceConfig">Commerce365\CustomerPrice\Service\PriceInfoProvider\PriceConfigProvider</item>
                 <item xsi:type="object" name="configurableConfig">Commerce365\CustomerPrice\Service\PriceInfoProvider\ConfigurableConfigProvider</item>
+                <item xsi:type="object" name="tierPricesPerUom">Commerce365\CustomerPrice\Service\PriceInfoProvider\TierPricesPerUomProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\Additional\AdditionalDataBuilder">
+        <arguments>
+            <argument xsi:type="array" name="providers">
+                <item xsi:type="object" name="pricePerUOM">Commerce365\CustomerPrice\Service\Additional\PricePerUom\DataProvider</item>
+                <item xsi:type="object" name="UOM">Commerce365\CustomerPrice\Service\Additional\PricePerUom\UomDataProvider</item>
             </argument>
         </arguments>
     </type>

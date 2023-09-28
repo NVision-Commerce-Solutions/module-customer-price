@@ -9,6 +9,7 @@ use Commerce365\CustomerPrice\Model\Config;
 use Commerce365\CustomerPrice\Service\GetMinimalSalableQty;
 use Commerce365\CustomerPrice\Service\GetPriceForQuantity;
 use Commerce365\CustomerPrice\Service\GetProductPriceData;
+use Commerce365\CustomerPrice\Service\IsPriceCallAvailable;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type;
 use Magento\Customer\Model\SessionFactory;
@@ -20,6 +21,7 @@ class ProductPrice
     private Config $config;
     private GetMinimalSalableQty $getMinimalSalableQty;
     private GetPriceForQuantity $getPriceForQuantity;
+    private IsPriceCallAvailable $isPriceCallAvailable;
 
     /**
      * @param SessionFactory $customerSessionFactory
@@ -31,13 +33,15 @@ class ProductPrice
         GetProductPriceData $getProductPriceData,
         GetMinimalSalableQty $getMinimalSalableQty,
         GetPriceForQuantity $getPriceForQuantity,
-        Config $config
+        Config $config,
+        IsPriceCallAvailable $isPriceCallAvailable
     ) {
         $this->customerSessionFactory = $customerSessionFactory;
         $this->getProductPriceData = $getProductPriceData;
         $this->config = $config;
         $this->getMinimalSalableQty = $getMinimalSalableQty;
         $this->getPriceForQuantity = $getPriceForQuantity;
+        $this->isPriceCallAvailable = $isPriceCallAvailable;
     }
 
     /**
@@ -47,7 +51,7 @@ class ProductPrice
      */
     public function afterGetPrice(Product $subject, $result)
     {
-        if (!$this->isPriceCallAvailable() || $subject->getTypeId() !== Type::DEFAULT_TYPE) {
+        if (!$this->isPriceCallAvailable->execute() || $subject->getTypeId() !== Type::DEFAULT_TYPE) {
             return $result;
         }
 
@@ -94,7 +98,7 @@ class ProductPrice
      */
     public function afterGetSpecialPrice(Product $subject, $result)
     {
-        if (!$this->isPriceCallAvailable() || $subject->getTypeId() !== Type::DEFAULT_TYPE) {
+        if (!$this->isPriceCallAvailable->execute() || $subject->getTypeId() !== Type::DEFAULT_TYPE) {
             return $result;
         }
 
@@ -105,21 +109,12 @@ class ProductPrice
             );
 
             if (!$priceData->getSpecialPrice()) {
-                return $result;
+                return $priceData->getPrice() > 0 ? null : $result;
             }
 
             return $priceData->getSpecialPrice();
         } catch (\Exception $e) {
             return $result;
         }
-    }
-
-    /**
-     * @return bool
-     */
-    private function isPriceCallAvailable(): bool
-    {
-        return $this->customerSessionFactory->create()->isLoggedIn()
-            && $this->config->isAjaxEnabled();
     }
 }

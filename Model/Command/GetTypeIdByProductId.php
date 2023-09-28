@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Model\Command;
 
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\App\ResourceConnection;
 
 class GetTypeIdByProductId
@@ -16,19 +17,16 @@ class GetTypeIdByProductId
         $this->resourceConnection = $resourceConnection;
     }
 
-    public function execute($productId)
+    public function execute($productId): string
     {
         $connection = $this->resourceConnection->getConnection();
         $tableName = $this->resourceConnection->getTableName(self::TABLE_NAME);
         $select = $connection->select()
-            ->from($tableName, ['type_id'])
+            ->from($tableName, [ProductInterface::TYPE_ID])
             ->where('entity_id = ?', $productId);
 
-        $customerId = $connection->fetchOne($select);
-        if (!$customerId) {
-            return null;
-        }
+        $result = $connection->fetchOne($select);
 
-        return $customerId;
+        return $result ?: '';
     }
 }

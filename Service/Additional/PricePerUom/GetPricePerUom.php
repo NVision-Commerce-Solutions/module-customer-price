@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Commerce365\CustomerPrice\Service\Additional;
+namespace Commerce365\CustomerPrice\Service\Additional\PricePerUom;
 
 use Commerce365\CustomerPrice\Service\CurrentCustomer;
 use Commerce365\CustomerPrice\Service\GetProductPriceData;
@@ -10,6 +10,8 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class GetPricePerUom
 {
+    public const PRICE_PER_UOM_KEY = 'pricePerUOM';
+
     private GetProductPriceData $getProductPriceData;
     private CurrentCustomer $currentCustomer;
     private PriceCurrencyInterface $priceCurrency;
@@ -36,11 +38,13 @@ class GetPricePerUom
         $customerId = $this->currentCustomer->getId();
         $priceData = $this->getProductPriceData->execute($productId, $customerId);
         $additionalData = $priceData->getAdditionalData();
-        if (empty($additionalData['pricePerUOM'])) {
+        if (empty($additionalData[self::PRICE_PER_UOM_KEY])) {
             return [];
         }
 
-        $additionalData['pricePerUOM'] = $this->priceCurrency->convertAndFormat($additionalData['pricePerUOM']);
+        $additionalData[self::PRICE_PER_UOM_KEY] = $this->priceCurrency->convertAndFormat(
+            $additionalData[self::PRICE_PER_UOM_KEY]
+        );
 
         return $additionalData;
     }

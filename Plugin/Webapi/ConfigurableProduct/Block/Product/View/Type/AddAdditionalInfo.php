@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Plugin\Webapi\ConfigurableProduct\Block\Product\View\Type;
 
-use Commerce365\CustomerPrice\Service\Additional\GetPricePerUom;
-use Magento\Catalog\Api\Data\ProductInterface;
+use Commerce365\CustomerPrice\Service\Additional\PricePerUom\GetPricePerUom;
 use Magento\ConfigurableProduct\Block\Product\View\Type\Configurable as Subject;
 use Magento\Framework\Serialize\Serializer\Json;
 

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
+use Commerce365\CustomerPrice\Model\Command\GetTypeIdByProductId;
 use Commerce365\CustomerPrice\Service\PriceInfoProvider\PriceInfoProviderInterface;
-use Magento\Catalog\Model\ResourceModel\GetProductTypeById;
 use RuntimeException;
 
 class GetProductResponseData
 {
     private array $priceInfoProviders;
-    private GetProductTypeById $getProductTypeById;
+    private GetTypeIdByProductId $getProductTypeById;
 
     /**
-     * @param GetProductTypeById $getProductTypeById
+     * @param GetTypeIdByProductId $getProductTypeById
      * @param array $priceInfoProviders
      */
     public function __construct(
-        GetProductTypeById $getProductTypeById,
+        GetTypeIdByProductId $getProductTypeById,
         array $priceInfoProviders
     ) {
         $this->priceInfoProviders = $priceInfoProviders;

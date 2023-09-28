@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service\View;
 
-use Commerce365\CustomerPrice\Service\Additional\GetPricePerUom;
+use Commerce365\CustomerPrice\Service\Additional\PricePerUom\GetPricePerUom;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Block\Product\View;
 use Magento\Framework\Serialize\SerializerInterface;

@@ -4,33 +4,29 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service\Additional;
 
-use Commerce365\CustomerPrice\Model\Command\GetTypeIdByProductId;
-use Magento\Catalog\Model\Product\Type;
+use RuntimeException;
 
 class AdditionalDataBuilder
 {
-    private GetTypeIdByProductId $getTypeIdByProductId;
+    private array $providers;
 
-    public function __construct(GetTypeIdByProductId $getTypeIdByProductId)
+    public function __construct(array $providers)
     {
-        $this->getTypeIdByProductId = $getTypeIdByProductId;
+        $this->providers = $providers;
     }
 
     public function build(array $priceInfo, $productId): array
     {
-        return [
-            'pricePerUOM' => $this->getPricePerUom($priceInfo, $productId),
-            'UOM' => $priceInfo['uoM'] ?? ''
-        ];
-    }
-
-    private function getPricePerUom(array $priceInfo, $productId)
-    {
-        $pricePerUom = '';
-        if ($this->getTypeIdByProductId->execute($productId) === Type::DEFAULT_TYPE) {
-            $pricePerUom = $priceInfo['pricePerUoM'] ?? '';
+        $additionalData = [];
+        foreach ($this->providers as $name => $provider) {
+            if (!$provider instanceof  AdditionalDataProviderInterface) {
+                throw new RuntimeException(
+                    __("Provider %1 should implements AdditionalDataProviderInterface", get_class($provider))
+                );
+            }
+            $additionalData[$name] = $provider->get($priceInfo, $productId);
         }
 
-        return $pricePerUom;
+        return $additionalData;
     }
 }

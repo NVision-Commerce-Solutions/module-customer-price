@@ -67,10 +67,13 @@ define([
             responseData.forEach(productInfo => {
                 try {
                     document.querySelectorAll("[data-price-box=product-id-" + productInfo.productId + "]").forEach(element => {
-                        if (productInfo.tierPriceHtml) {
+                        if (productInfo.tierPriceHtml && !element.classList.contains('price-tier_price')) {
                             this.processTierPrices(productInfo, element)
                         }
-                        element.outerHTML = productInfo.priceHtml;
+                        if (!element.classList.contains('price-tier_price')) {
+                            element.outerHTML = productInfo.priceHtml;
+                        }
+
                         if (productInfo.type !== 'grouped_child') {
                             self.processPriceConfig(productInfo);
                         }
@@ -92,7 +95,7 @@ define([
                 tierPriceElementTd.innerHTML = productInfo.tierPriceHtml;
                 tierPriceElementTr.appendChild(tierPriceElementTd);
                 element.parentNode.parentNode.after(tierPriceElementTr)
-            } else {
+            } else if (productInfo.type === 'simple') {
                 const tierPrice = this.getElementFromHtml(productInfo.tierPriceHtml);
                 element.parentNode.after(tierPrice);
             }
