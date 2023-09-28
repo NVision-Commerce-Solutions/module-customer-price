@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Plugin\Webapi;
 
-use Commerce365\CustomerPrice\Service\Additional\GetPricePerUom;
+use Commerce365\CustomerPrice\Service\Additional\PricePerUom\GetPricePerUom;
 use Magento\Catalog\Model\Product;
 
 class AdditionalDataPlugin

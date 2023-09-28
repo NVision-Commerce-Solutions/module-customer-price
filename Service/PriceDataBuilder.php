@@ -39,6 +39,7 @@ class PriceDataBuilder
                 $tierPrices[] = [
                     'qty' => $price['minimumQuantity'],
                     'price' => $price['price'],
+                    'additional' => $this->additionalDataBuilder->build($price, $responseItem['productId'])
                 ];
             }
         }

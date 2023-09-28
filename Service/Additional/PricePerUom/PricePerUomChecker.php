@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Commerce365\CustomerPrice\Service\Additional;
+namespace Commerce365\CustomerPrice\Service\Additional\PricePerUom;
 
 use Commerce365\CustomerPrice\Model\Config;
 
@@ -15,7 +15,7 @@ class PricePerUomChecker
         $this->config = $config;
     }
 
-    public function canShow()
+    public function canShow(): bool
     {
         if ($this->config->showPricePerUom()) {
             return true;
