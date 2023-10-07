@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
+use Magento\Customer\Model\SessionFactory;
+
 class CurrentCustomer
 {
-    private string $currentCustomerId;
+    private int $currentCustomerId = 0;
+    private SessionFactory $sessionFactory;
+
+    public function __construct(SessionFactory $sessionFactory)
+    {
+        $this->sessionFactory = $sessionFactory;
+    }
 
     public function setId(string $customerId): void
     {
-        $this->currentCustomerId = $customerId;
+        $this->currentCustomerId = (int) $customerId;
     }
 
     /**
@@ -19,10 +27,11 @@ class CurrentCustomer
      */
     public function getId(): int
     {
-        if ($this->exists()) {
-            return (int) $this->currentCustomerId;
+        if (!$this->exists()) {
+            return (int) $this->sessionFactory->create()->getCustomerId();
         }
-        throw new \RuntimeException('Customer is not set on CustomerRegistry.');
+
+        return $this->currentCustomerId;
     }
 
     /**

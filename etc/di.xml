@@ -70,4 +70,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product\Type\Price">
+        <plugin name="commerce365_simple_price_plugin"
+                type="Commerce365\CustomerPrice\Plugin\SimplePricePlugin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Checkout\CustomerData\AbstractItem">
+        <plugin name="commerce365_add_price_per_uom_to_cart_item"
+                type="Commerce365\CustomerPrice\Plugin\AddPricePerUomToCartItem"/>
+    </type>
 </config>

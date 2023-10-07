@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Plugin\Webapi;
 
+use Commerce365\CustomerPrice\Model\Config;
+use Commerce365\CustomerPrice\Service\Additional\PricePerUom\GetTierPricesPerUom;
 use Commerce365\CustomerPrice\Service\GetProductPriceData;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type;
 use Magento\Catalog\Pricing\Price\TierPrice;
 use Magento\Customer\Model\SessionFactory;
@@ -14,13 +17,19 @@ class TierPricePlugin
 {
     private SessionFactory $customerSessionFactory;
     private GetProductPriceData $getProductPriceData;
+    private GetTierPricesPerUom $getTierPricesPerUom;
+    private Config $config;
 
     public function __construct(
         SessionFactory $customerSessionFactory,
-        GetProductPriceData $getProductPriceData
+        GetProductPriceData $getProductPriceData,
+        GetTierPricesPerUom $getTierPricesPerUom,
+        Config $config
     ) {
         $this->customerSessionFactory = $customerSessionFactory;
         $this->getProductPriceData = $getProductPriceData;
+        $this->getTierPricesPerUom = $getTierPricesPerUom;
+        $this->config = $config;
     }
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
@@ -31,7 +40,7 @@ class TierPricePlugin
         }
 
         $product = $subject->getProduct();
-        if ($subject->getProduct()->getTypeId() !== Type::DEFAULT_TYPE) {
+        if ($product->getTypeId() !== Type::DEFAULT_TYPE) {
             return $result;
         }
 
@@ -41,7 +50,7 @@ class TierPricePlugin
         $tierPrices = $priceData['tierPrices'] ?? [];
 
         foreach ($tierPrices as $price) {
-            $tierPriceList[] = [
+            $tierPriceData = [
                 'price_id' => ++$priceId,
                 'website_id' => '0',
                 'all_groups' => '1',
@@ -50,6 +59,26 @@ class TierPricePlugin
                 'price_qty' => (int) $price['qty'],
                 'website_price' => $price['price'],
             ];
+
+            $tierPriceList[] = $tierPriceData;
+        }
+
+        if ($this->config->showPricePerUomTier()) {
+            $tierPriceList = $this->addTierPricesPerUom($product, $tierPriceList);
+        }
+
+        return $tierPriceList;
+    }
+
+    private function addTierPricesPerUom(Product $product, array $tierPriceList): array
+    {
+        $uomTierPrices = $this->getTierPricesPerUom->execute($product->getId());
+        foreach ($tierPriceList as $key => $tierPrice) {
+            foreach ($uomTierPrices as $uomTierPrice) {
+                if ($uomTierPrice['qty'] === $tierPrice['price_qty']) {
+                    $tierPriceList[$key]['uom_price_data'] = $uomTierPrice['additional'];
+                }
+            }
         }
 
         return $tierPriceList;

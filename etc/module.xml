@@ -5,7 +5,6 @@
         <sequence>
             <module name="Commerce365_Core"/>
             <module name="Magento_Catalog"/>
-            <module name="Magento_InventoryConfigurableProductFrontendUi"/>
         </sequence>
     </module>
 </config>

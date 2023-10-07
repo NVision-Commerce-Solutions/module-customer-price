@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Commerce365\CustomerPrice\Plugin\Frontend;
+namespace Commerce365\CustomerPrice\Plugin;
 
 use Commerce365\CustomerPrice\Model\Config;
+use Commerce365\CustomerPrice\Plugin\Frontend\Product;
 use Commerce365\CustomerPrice\Service\GetPriceForQuantity;
 use Magento\Catalog\Model\Product\Type\Price;
 use Magento\Customer\Model\SessionFactory;
