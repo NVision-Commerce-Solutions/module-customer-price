@@ -15,6 +15,7 @@ class Config
     public const XML_PATH_SPECIAL_PRICE = 'commerce365config_general/b2b_pricing/use_special_price';
     private const XML_PATH_CACHE_ENABLE = 'commerce365config_general/b2b_pricing/db_caching_enabled';
     private const XML_PATH_SHOW_UOM = 'commerce365config_general/b2b_pricing/show_priceperuom';
+    private const XML_PATH_SHOW_UOM_TIER = 'commerce365config_general/b2b_pricing/show_priceperuom_tier';
     private const XML_PATH_USE_MINIMAL_QTY = 'commerce365config_general/b2b_pricing/use_minimal_qty';
 
     private ScopeConfigInterface $scopeConfig;
@@ -61,13 +62,18 @@ class Config
         return $this->scopeConfig->getValue(self::XML_PATH_CACHE_HOURS, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
     }
 
-    public function showPricePerUom()
+    public function showPricePerUom(): bool
     {
         return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM, ScopeInterface::SCOPE_STORE);
     }
 
-    public function useMinSalableQty()
+    public function useMinSalableQty(): bool
     {
         return $this->scopeConfig->isSetFlag(self::XML_PATH_USE_MINIMAL_QTY, ScopeInterface::SCOPE_STORE);
+    }
+
+    public function showPricePerUomTier(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM_TIER, ScopeInterface::SCOPE_STORE);
     }
 }

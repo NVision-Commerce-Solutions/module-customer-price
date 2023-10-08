@@ -12,11 +12,6 @@
     <type name="Magento\Catalog\Model\Product">
         <plugin name="commerce365_frontend_pricing_product" type="Commerce365\CustomerPrice\Plugin\Frontend\ProductPlugin" sortOrder="1" />
     </type>
-    <type name="Magento\Catalog\Model\Product\Type\Price">
-        <plugin name="commerce365_simple_price_plugin"
-                type="Commerce365\CustomerPrice\Plugin\Frontend\SimplePricePlugin"
-                sortOrder="10"/>
-    </type>
     <type name="Magento\Framework\Pricing\Render\Amount">
         <plugin name="commerce365_hide_price_amount"
                 type="Commerce365\CustomerPrice\Plugin\Frontend\HidePriceAmount"/>
