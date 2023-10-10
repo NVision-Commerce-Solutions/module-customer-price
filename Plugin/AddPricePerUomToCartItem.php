@@ -27,13 +27,16 @@ class AddPricePerUomToCartItem
      */
     public function afterGetItemData(AbstractItem $subject, $result, Item $item)
     {
+        $item = $this->resolveChildrenWithPricePerUom($item);
+
         $pricePerUom = $this->getPricePerUom->execute($item->getProductId());
         if (empty($pricePerUom)) {
             return $result;
         }
 
         $result['product_price_per_uom'] = $pricePerUom;
-        if ($item->getQty() === 1.0) {
+        $qty = $this->resolveQty($item);
+        if ($qty === 1.0) {
             return $result;
         }
 
@@ -43,11 +46,30 @@ class AddPricePerUomToCartItem
         }
 
         foreach ($tierPrices as $tierPrice) {
-            if ($item->getQty() > $tierPrice['qty']) {
+            if ($qty > $tierPrice['qty']) {
                 $result['product_price_per_uom'] = $tierPrice['additional'];
             }
         }
 
         return $result;
+    }
+
+    private function resolveChildrenWithPricePerUom(Item $item): Item
+    {
+        if ($item->getHasChildren()) {
+            foreach ($item->getChildren() as $child) {
+                $pricePerUom = $this->getPricePerUom->execute($child->getProductId());
+                if (!empty($pricePerUom)) {
+                    return $child;
+                }
+            }
+        }
+
+        return $item;
+    }
+
+    private function resolveQty(Item $item)
+    {
+        return $item->getParentItem() ? $item->getParentItem()->getQty() : $item->getQty();
     }
 }
