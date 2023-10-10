@@ -26,8 +26,20 @@ class ProductPlugin
     public function afterIsSalable(Product $subject, $result)
     {
         if ($this->config->isAjaxEnabled()
-            && !$this->customerSessionFactory->create()->isLoggedIn()
-            && $this->config->isHidePricesGuest()) {
+            && $this->config->isHidePricesGuest()
+            && !$this->customerSessionFactory->create()->isLoggedIn()) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    public function afterGetData(Product $subject, $result, $key = '', $index = null)
+    {
+        if ($key === 'can_show_price'
+            && $this->config->isHidePricesGuest()
+            && $this->config->isAjaxEnabled()
+            && !$this->customerSessionFactory->create()->isLoggedIn()) {
             return false;
         }
 
