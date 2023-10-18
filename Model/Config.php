@@ -17,6 +17,7 @@ class Config
     private const XML_PATH_SHOW_UOM = 'commerce365config_general/b2b_pricing/show_priceperuom';
     private const XML_PATH_SHOW_UOM_TIER = 'commerce365config_general/b2b_pricing/show_priceperuom_tier';
     private const XML_PATH_USE_MINIMAL_QTY = 'commerce365config_general/b2b_pricing/use_minimal_qty';
+    private const XML_PATH_CONFIGURABLE_PRESELECT = 'commerce365config_general/b2b_pricing/configurable_preselect';
 
     private ScopeConfigInterface $scopeConfig;
 
@@ -75,5 +76,10 @@ class Config
     public function showPricePerUomTier(): bool
     {
         return $this->scopeConfig->isSetFlag(self::XML_PATH_SHOW_UOM_TIER, ScopeInterface::SCOPE_STORE);
+    }
+
+    public function preselectConfigurable(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_PATH_CONFIGURABLE_PRESELECT, ScopeInterface::SCOPE_STORE);
     }
 }

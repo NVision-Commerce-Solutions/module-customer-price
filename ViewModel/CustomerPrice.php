@@ -67,4 +67,9 @@ class CustomerPrice implements ArgumentInterface
     {
         return $this->config->isAjaxEnabled();
     }
+
+    public function preselectConfigurable(): bool
+    {
+        return $this->config->preselectConfigurable();
+    }
 }
