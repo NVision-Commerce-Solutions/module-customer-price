@@ -37,6 +37,9 @@ class GetTierPricesPerUom
         $customerId = $this->currentCustomer->getId();
         $priceData = $this->getProductPriceData->execute($productId, $customerId);
         $tierPrices = $priceData->getTierPrices();
+        if (empty($tierPrices)) {
+            return $tierPricesPerUom;
+        }
 
         foreach ($tierPrices as $tierPrice) {
             if (empty($tierPrice['additional'][GetPricePerUom::PRICE_PER_UOM_KEY])) {

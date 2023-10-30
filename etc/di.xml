@@ -79,7 +79,4 @@
         <plugin name="commerce365_add_price_per_uom_to_cart_item"
                 type="Commerce365\CustomerPrice\Plugin\AddPricePerUomToCartItem"/>
     </type>
-    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
-        <plugin name="commerce365_add_default_values" type="Commerce365\CustomerPrice\Plugin\ConfigurableProduct\Block\Product\View\Type\AddDefaultValues"/>
-    </type>
 </config>
