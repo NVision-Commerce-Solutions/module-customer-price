@@ -24,6 +24,6 @@ class AdditionalDataPlugin
 
         $additionalData = $this->getPricePerUom->execute($subject->getId());
 
-        return $additionalData ?? $result;
+        return !empty($additionalData) ? $additionalData : $result;
     }
 }

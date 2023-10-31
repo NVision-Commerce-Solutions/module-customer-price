@@ -36,11 +36,11 @@ class ProductListPricesPreloadToCache
      */
     public function afterGetLoadedProductCollection(ListProduct $subject, $result)
     {
-        if (!$this->config->isCachingEnabled()) {
+        $session = $this->sessionFactory->create();
+        if (!$this->config->isCachingEnabled() || !$session->getCustomerId()) {
             return $result;
         }
 
-        $session = $this->sessionFactory->create();
         $productIds = $this->getProductIdsForRequest->execute($result);
         $this->getPriceCollection->execute($productIds, $session->getCustomerId());
 
