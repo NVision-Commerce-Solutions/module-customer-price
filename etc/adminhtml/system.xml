@@ -62,7 +62,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="configurable_preselect" translate="label" type="select" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Preselect first configurable option on Product Page</label>
+                    <label>Preselect first swatch option on Product Page</label>
                     <comment>Hyva Only</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
