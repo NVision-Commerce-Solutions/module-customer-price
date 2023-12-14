@@ -12,36 +12,37 @@ use Commerce365\CustomerPrice\Service\GetProductPriceData;
 use Commerce365\CustomerPrice\Service\IsPriceCallAvailable;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session as CustomerSession;
 
 class ProductPrice
 {
-    private SessionFactory $customerSessionFactory;
     private GetProductPriceData $getProductPriceData;
     private Config $config;
     private GetMinimalSalableQty $getMinimalSalableQty;
     private GetPriceForQuantity $getPriceForQuantity;
     private IsPriceCallAvailable $isPriceCallAvailable;
+    private CustomerSession $customerSession;
+
 
     /**
-     * @param SessionFactory $customerSessionFactory
      * @param GetProductPriceData $getProductPriceData
      * @param Config $config
+     * @param CustomerSession $customerSession
      */
     public function __construct(
-        SessionFactory $customerSessionFactory,
         GetProductPriceData $getProductPriceData,
         GetMinimalSalableQty $getMinimalSalableQty,
         GetPriceForQuantity $getPriceForQuantity,
         Config $config,
-        IsPriceCallAvailable $isPriceCallAvailable
+        IsPriceCallAvailable $isPriceCallAvailable,
+        CustomerSession $customerSession
     ) {
-        $this->customerSessionFactory = $customerSessionFactory;
         $this->getProductPriceData = $getProductPriceData;
         $this->config = $config;
         $this->getMinimalSalableQty = $getMinimalSalableQty;
         $this->getPriceForQuantity = $getPriceForQuantity;
         $this->isPriceCallAvailable = $isPriceCallAvailable;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -56,7 +57,7 @@ class ProductPrice
         }
 
         try {
-            $customerId = $this->customerSessionFactory->create()->getCustomerId();
+            $customerId = $this->customerSession->getCustomerId();
 
             $priceData = $this->getProductPriceData->execute($subject->getId(), $customerId);
             if ($this->config->useMinSalableQty()) {
@@ -105,7 +106,7 @@ class ProductPrice
         try {
             $priceData = $this->getProductPriceData->execute(
                 $subject->getId(),
-                $this->customerSessionFactory->create()->getCustomerId()
+                $this->customerSession->getCustomerId()
             );
 
             if (!$priceData->getSpecialPrice()) {

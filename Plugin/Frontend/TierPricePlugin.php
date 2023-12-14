@@ -6,19 +6,19 @@ namespace Commerce365\CustomerPrice\Plugin\Frontend;
 
 use Commerce365\CustomerPrice\Model\Config;
 use Magento\Catalog\Pricing\Price\TierPrice;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Framework\App\Http\Context as HttpContext;
 
 class TierPricePlugin
 {
-    private SessionFactory $customerSessionFactory;
     private Config $config;
+    private HttpContext $httpContext;
 
     public function __construct(
-        SessionFactory $customerSessionFactory,
-        Config $config
+        Config $config,
+        HttpContext $context
     ) {
-        $this->customerSessionFactory = $customerSessionFactory;
         $this->config = $config;
+        $this->httpContext = $context;
     }
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
@@ -27,7 +27,9 @@ class TierPricePlugin
             return [];
         }
 
-        if (!$this->customerSessionFactory->create()->isLoggedIn() && $this->config->isHidePricesGuest()) {
+        if ($this->config->isHidePricesGuest() &&
+            false === (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH)
+        ) {
             return [];
         }
 

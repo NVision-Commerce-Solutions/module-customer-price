@@ -50,16 +50,11 @@ class CustomerPrice implements CustomerPriceInterface
     public function getCustomerPrice(
         $productInfo,
         $storeId,
-        $customerToken,
+        $customerId,
         $productId
     ) {
         $response = [];
-        if (empty($productInfo) || !is_array($productInfo) || !$customerToken) {
-            return $response;
-        }
-
-        $customerId = $this->getCustomerIdByToken->execute($customerToken);
-        if (!$customerId) {
+        if (empty($productInfo) || !is_array($productInfo) || !$customerId) {
             return $response;
         }
         $this->currentCustomer->setId($customerId);

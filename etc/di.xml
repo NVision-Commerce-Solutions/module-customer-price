@@ -36,6 +36,16 @@
     <type name="Magento\Catalog\Model\Product">
         <plugin name="commerce365_pricing_product" type="Commerce365\CustomerPrice\Plugin\ProductPrice" sortOrder="1" />
     </type>
+    <type name="Commerce365\CustomerPrice\Plugin\ProductPrice">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\IsPriceCallAvailable">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Customer\CustomerData\Customer">
         <plugin name="commerce365_add_customer_token"
                 type="Commerce365\CustomerPrice\Plugin\AddCustomerToken"/>

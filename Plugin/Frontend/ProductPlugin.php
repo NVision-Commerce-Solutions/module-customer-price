@@ -6,28 +6,28 @@ namespace Commerce365\CustomerPrice\Plugin\Frontend;
 
 use Commerce365\CustomerPrice\Model\Config;
 use Magento\Catalog\Model\Product;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Framework\App\Http\Context as HttpContext;
 
 class ProductPlugin
 {
     private Config $config;
-    private SessionFactory $customerSessionFactory;
+    private HttpContext $httpContext;
 
     /**
      * @param Config $config
-     * @param SessionFactory $customerSessionFactory
+     * @param HttpContext $context
      */
-    public function __construct(Config $config, SessionFactory $customerSessionFactory)
+    public function __construct(Config $config, HttpContext $context)
     {
         $this->config = $config;
-        $this->customerSessionFactory = $customerSessionFactory;
+        $this->httpContext = $context;
     }
 
     public function afterIsSalable(Product $subject, $result)
     {
         if ($this->config->isAjaxEnabled()
             && $this->config->isHidePricesGuest()
-            && !$this->customerSessionFactory->create()->isLoggedIn()) {
+            && false === (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH)) {
             return false;
         }
 
@@ -39,7 +39,7 @@ class ProductPlugin
         if ($key === 'can_show_price'
             && $this->config->isHidePricesGuest()
             && $this->config->isAjaxEnabled()
-            && !$this->customerSessionFactory->create()->isLoggedIn()) {
+            && false === (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH)) {
             return false;
         }
 

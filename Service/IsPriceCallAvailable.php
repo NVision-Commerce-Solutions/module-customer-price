@@ -5,22 +5,29 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service;
 
 use Commerce365\CustomerPrice\Model\Config;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Framework\App\RequestInterface;
+use Magento\Customer\Model\Session as CustomerSession;
 
 class IsPriceCallAvailable
 {
-    private SessionFactory $customerSessionFactory;
+    private CustomerSession $customerSession;
+    private RequestInterface $request;
     private Config $config;
 
-    public function __construct(SessionFactory $customerSessionFactory, Config $config)
+    public function __construct(CustomerSession $customerSession, RequestInterface $request, Config $config)
     {
-        $this->customerSessionFactory = $customerSessionFactory;
+        $this->customerSession = $customerSession;
+        $this->request = $request;
         $this->config = $config;
     }
 
     public function execute(): bool
     {
-        return $this->customerSessionFactory->create()->isLoggedIn()
-            && $this->config->isAjaxEnabled();
+        if ((false === $this->request->isXmlHttpRequest() && false === $this->request->isPost())
+            && $this->request->getModuleName() !== 'loginascustomer') {
+            return false;
+       }
+
+       return $this->config->isAjaxEnabled() && $this->customerSession->isLoggedIn();
     }
 }

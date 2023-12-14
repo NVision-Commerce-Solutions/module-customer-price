@@ -5,28 +5,27 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service\PriceBox;
 
 use Commerce365\CustomerPrice\Model\Config;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\App\RequestInterface;
 
 class GetPrice
 {
     private Config $config;
-    private SessionFactory $customerSessionFactory;
     private RequestInterface $request;
+    private HttpContext $httpContext;
 
     /**
      * @param Config $config
-     * @param SessionFactory $customerSessionFactory
      * @param RequestInterface $request
      */
     public function __construct(
         Config $config,
-        SessionFactory $customerSessionFactory,
-        RequestInterface $request
+        RequestInterface $request,
+        HttpContext $context
     ) {
         $this->config = $config;
-        $this->customerSessionFactory = $customerSessionFactory;
         $this->request = $request;
+        $this->httpContext = $context;
     }
 
     public function execute($default)
@@ -35,11 +34,15 @@ class GetPrice
             return $default;
         }
 
-        if (!$this->config->isHidePricesGuest() && !$this->customerSessionFactory->create()->isLoggedIn()) {
+        if (!$this->config->isHidePricesGuest() &&
+            false === (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH)
+        ) {
             return $default;
         }
 
-        if ($this->config->isHidePricesGuest() && !$this->customerSessionFactory->create()->isLoggedIn()) {
+        if ($this->config->isHidePricesGuest() &&
+            false === (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH)
+        ) {
             return '';
         }
 
