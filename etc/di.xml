@@ -79,9 +79,4 @@
         <plugin name="commerce365_add_price_per_uom_to_cart_item"
                 type="Commerce365\CustomerPrice\Plugin\AddPricePerUomToCartItem"/>
     </type>
-    <type name="Commerce365\CustomerPrice\Service\GetMinimalSalableQty">
-        <arguments>
-            <argument name="getMinimalSalableQtyMSI" xsi:type="object">Commerce365\CustomerPrice\Service\GetMinimalSalableQtyMSI\Proxy</argument>
-        </arguments>
-    </type>
 </config>
