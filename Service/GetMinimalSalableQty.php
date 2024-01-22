@@ -5,25 +5,26 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service;
 
 use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\InventoryConfiguration\Model\GetLegacyStockItem;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Exception\LocalizedException;
 
 class GetMinimalSalableQty
 {
-    private GetLegacyStockItem $getLegacyStockItem;
+    private StockRegistryInterface $stockRegistry;
 
-    public function __construct(GetLegacyStockItem $getLegacyStockItem)
+    public function __construct(StockRegistryInterface $stockRegistry)
     {
-        $this->getLegacyStockItem = $getLegacyStockItem;
+        $this->stockRegistry = $stockRegistry;
     }
 
     /**
      * @param ProductInterface $product
      * @return float|null
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(ProductInterface $product): ?float
     {
-        $stockItem = $this->getLegacyStockItem->execute($product->getSku());
+        $stockItem = $this->stockRegistry->getStockItemBySku($product->getSku());
         $minSaleQty = $stockItem->getMinSaleQty();
         return $minSaleQty > 0 ? $minSaleQty : null;
     }
