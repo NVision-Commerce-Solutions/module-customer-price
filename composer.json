@@ -1,6 +1,6 @@
 {
     "name": "commerce365/module-customer-price",
-    "version": "1.7.3",
+    "version": "1.8.0",
     "description": "Commerce 365 for Magento - B2B - Customer price module - Adds full support for Business Central pricing to Magento",
     "homepage": "https://n.vision/products/commerce-365-for-magento-b2b/",
     "type": "magento2-module",

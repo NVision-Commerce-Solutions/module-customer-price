@@ -2,12 +2,11 @@ define([
     'uiComponent',
     'jquery',
     'underscore',
-    'Magento_Customer/js/customer-data',
     'mage/url',
     'Magento_Swatches/js/swatch-renderer',
     'priceBox',
     'configurable'
-], function (Component, $, _, customerData, url) {
+], function (Component, $, _, url) {
     'use strict';
 
     return Component.extend({
@@ -34,14 +33,7 @@ define([
                 return;
             }
 
-            let customer = customerData.get('customer');
-            if (customer().price_token) {
-                this.makePriceCall(payload).catch(error => {error.message});
-            } else {
-                customer.subscribe(function () {
-                    this.makePriceCall(payload).catch(error => {error.message});
-                }, this);
-            }
+            this.makePriceCall(payload).catch(error => {error.message});
         },
 
         makePriceCall: async function (payload) {
@@ -51,7 +43,6 @@ define([
                 body: JSON.stringify({
                     productInfo: payload,
                     storeId: this.customerpriceObj.storeId,
-                    customerToken: customerData.get('customer')().price_token,
                     productId: this.customerpriceObj.productId
                 }),
                 headers: {
