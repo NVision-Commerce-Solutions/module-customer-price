@@ -4,7 +4,10 @@
     <route method="POST" url="/V1/customer-price">
         <service class="Commerce365\CustomerPrice\Api\CustomerPriceInterface" method="getCustomerPrice"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="self"/>
         </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
     </route>
 </routes>

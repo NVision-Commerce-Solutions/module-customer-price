@@ -36,10 +36,6 @@
     <type name="Magento\Catalog\Model\Product">
         <plugin name="commerce365_pricing_product" type="Commerce365\CustomerPrice\Plugin\ProductPrice" sortOrder="1" />
     </type>
-    <type name="Magento\Customer\CustomerData\Customer">
-        <plugin name="commerce365_add_customer_token"
-                type="Commerce365\CustomerPrice\Plugin\AddCustomerToken"/>
-    </type>
     <virtualType name="Commerce365CustomerPriceModuleVersion" type="Commerce365\Core\Service\Module\Version">
         <arguments>
             <argument name="packageName" xsi:type="string">commerce365/module-customer-price</argument>
