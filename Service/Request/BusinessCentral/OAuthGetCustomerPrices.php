@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Commerce365\CustomerPrice\Service\Request;
+namespace Commerce365\CustomerPrice\Service\Request\BusinessCentral;
 
-use Commerce365\Core\Service\Request\Post;
+use Commerce365\Core\Service\Request\BusinessCentral\OAuthPost as Post;
 use Commerce365\CustomerPrice\Service\Customer\CurrencyResolver;
+use Commerce365\CustomerPrice\Service\Request\GetCustomerPricesInterface;
 
-class GetCustomerPrices implements GetCustomerPricesInterface
+class OAuthGetCustomerPrices implements GetCustomerPricesInterface
 {
     private Post $post;
     private CurrencyResolver $currencyResolver;
@@ -26,12 +27,11 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
     public function execute($productIds, $customerId)
     {
-        $priceData = $this->post->execute('price', [
+        $priceData = $this->post->execute('GetPrices_GetPricesById', [
             'json' => [
-                'CustomerId' => (int) $customerId,
-                'ProductIds' => array_values(array_map('intval', $productIds)),
-                'CurrencyCode' => $this->currencyResolver->resolve($customerId),
-                'UnitofMeasureCode' => ''
+                'customerId' => 1,
+                'productIds' => array_values(array_map('intval', $productIds)),
+                'currencyCode' => $this->currencyResolver->resolve($customerId),
             ],
             'allow_redirects'=> ['strict' => true]
         ]);
