@@ -16,7 +16,9 @@ class GetProductIdsForRequest
     public function execute(Collection $collection): array
     {
         $productIds = [];
-        foreach ($collection as $product) {
+        $collectionClone = clone $collection;
+        
+        foreach ($collectionClone as $product) {
             if ($product->getTypeId() !== Type::DEFAULT_TYPE) {
                 $childrenIds = $product->getTypeInstance()->getChildrenIds($product->getId());
                 $childrenIds = array_shift($childrenIds);
@@ -27,6 +29,8 @@ class GetProductIdsForRequest
                 $productIds[] = $product->getId();
             }
         }
+
+        unset($collectionClone);
 
         return array_unique($productIds);
     }
