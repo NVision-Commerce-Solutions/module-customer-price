@@ -6,36 +6,27 @@ namespace Commerce365\CustomerPrice\Service;
 
 use Commerce365\CustomerPrice\Model\Command\SetCachedPriceData;
 use Commerce365\CustomerPrice\Service\Mapper\ResponseToDatabaseMapperInterface;
-use Commerce365\CustomerPrice\Service\Request\GetCustomerPricesFactory;
-use Commerce365\CustomerPrice\Service\Request\GetCustomerPricesInterface;
-use Magento\Framework\Exception\RuntimeException;
+use Commerce365\CustomerPrice\Service\Request\GetCustomerPrices;
 
 class SyncPrices
 {
-    private GetCustomerPricesFactory $getCustomerPricesFactory;
     private SetCachedPriceData $setCachedPriceData;
     private ResponseToDatabaseMapperInterface $responseToDatabaseMapper;
+    private GetCustomerPrices $getCustomerPrices;
 
     public function __construct(
-        GetCustomerPricesFactory $getCustomerPricesFactory,
+        GetCustomerPrices $getCustomerPrices,
         SetCachedPriceData $setCachedPriceData,
         ResponseToDatabaseMapperInterface $responseToDatabaseMapper
     ) {
-        $this->getCustomerPricesFactory = $getCustomerPricesFactory;
         $this->setCachedPriceData = $setCachedPriceData;
         $this->responseToDatabaseMapper = $responseToDatabaseMapper;
+        $this->getCustomerPrices = $getCustomerPrices;
     }
 
     public function execute($productIds, $customerId)
     {
-        $getCustomerPrices = $this->getCustomerPricesFactory->create();
-        if (!$getCustomerPrices instanceof GetCustomerPricesInterface) {
-            throw new RuntimeException(
-                __("Class %1 should implements GetCustomerPricesInterface", get_class($getCustomerPrices))
-            );
-        }
-
-        $priceResponse = $getCustomerPrices->execute($productIds, $customerId);
+        $priceResponse = $this->getCustomerPrices->execute($productIds, $customerId);
 
         $priceData = $this->responseToDatabaseMapper->map($priceResponse, $customerId);
 
