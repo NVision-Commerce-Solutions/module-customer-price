@@ -17,6 +17,7 @@ class GetCustomerPrices implements GetCustomerPricesInterface
     /**
      * @param CurrencyResolver $currencyResolver
      * @param AdvancedConfig $advancedConfig
+     * @param PostFactory $postFactory
      */
     public function __construct(
         CurrencyResolver $currencyResolver,
@@ -33,11 +34,7 @@ class GetCustomerPrices implements GetCustomerPricesInterface
         $post = $this->postFactory->create();
 
         $priceData = $post->execute($this->getMethod(), [
-            'json' => [
-                'CustomerId' => (int) 3,
-                'ProductIds' => array_values(array_map('intval', [10])),
-                'CurrencyCode' => $this->currencyResolver->resolve($customerId),
-            ],
+            'json' => $this->getJson($customerId, $productIds),
             'allow_redirects'=> ['strict' => true]
         ]);
 
@@ -51,5 +48,22 @@ class GetCustomerPrices implements GetCustomerPricesInterface
         }
 
         return 'price';
+    }
+
+    private function getJson($customerId, $productIds): array
+    {
+        if ($this->advancedConfig->isBCOAuth() || $this->advancedConfig->isBCBasic()) {
+            return [
+                'customerId' => (int) $customerId,
+                'productIds' => array_values(array_map('intval', $productIds)),
+                'currencyCode' => $this->currencyResolver->resolve($customerId),
+            ];
+        }
+
+        return [
+            'CustomerId' => (int) $customerId,
+            'ProductIds' => array_values(array_map('intval', $productIds)),
+            'CurrencyCode' => $this->currencyResolver->resolve($customerId),
+        ];
     }
 }
