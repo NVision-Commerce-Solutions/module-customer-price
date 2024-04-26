@@ -34,8 +34,8 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
         $priceData = $post->execute($this->getMethod(), [
             'json' => [
-                'CustomerId' => (int) $customerId,
-                'ProductIds' => array_values(array_map('intval', $productIds)),
+                'CustomerId' => (int) 3,
+                'ProductIds' => array_values(array_map('intval', [10])),
                 'CurrencyCode' => $this->currencyResolver->resolve($customerId),
             ],
             'allow_redirects'=> ['strict' => true]
@@ -46,12 +46,8 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
     private function getMethod(): string
     {
-        if ($this->advancedConfig->isBCOAuth()) {
+        if ($this->advancedConfig->isBCOAuth() || $this->advancedConfig->isBCBasic()) {
             return 'GetPrices_GetPricesById';
-        }
-
-        if ($this->advancedConfig->isBCBasic()) {
-            return 'GetPricesMock_GetPricesByIdMock';
         }
 
         return 'price';
