@@ -10,12 +10,7 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class ConfigurableConfigProvider implements PriceInfoProviderInterface
 {
-    private GetConfigurableConfig $getConfigurableConfig;
-
-    public function __construct(GetConfigurableConfig $getConfigurableConfig)
-    {
-        $this->getConfigurableConfig = $getConfigurableConfig;
-    }
+    public function __construct(private readonly GetConfigurableConfig $getConfigurableConfig) {}
 
     public function get(ProductInterface $product, $mainProductId = null, $mainProductType = ''): string
     {

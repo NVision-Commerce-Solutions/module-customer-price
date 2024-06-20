@@ -10,12 +10,7 @@ use Magento\Catalog\Model\Product\Type;
 
 class DataProvider implements AdditionalDataProviderInterface
 {
-    private GetTypeIdByProductId $getTypeIdByProductId;
-
-    public function __construct(GetTypeIdByProductId $getTypeIdByProductId)
-    {
-        $this->getTypeIdByProductId = $getTypeIdByProductId;
-    }
+    public function __construct(private readonly GetTypeIdByProductId $getTypeIdByProductId) {}
 
     public function get(array $priceInfo, $productId): string
     {

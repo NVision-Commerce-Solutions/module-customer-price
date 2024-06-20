@@ -7,16 +7,10 @@ namespace Commerce365\CustomerPrice\Service;
 class GetProductPriceData
 {
     private $priceData;
-    private GetPriceCollectionForProducts $getPriceCollectionForProduct;
 
-    /**
-     * @param GetPriceCollectionForProducts $getPriceCollectionForProduct
-     */
     public function __construct(
-        GetPriceCollectionForProducts $getPriceCollectionForProduct
-    ) {
-        $this->getPriceCollectionForProduct = $getPriceCollectionForProduct;
-    }
+        private readonly GetPriceCollectionForProducts $getPriceCollectionForProduct
+    ) {}
 
     public function execute($productId, $customerId)
     {

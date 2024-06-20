@@ -8,7 +8,7 @@
                     <label>B2B Pricing Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="db_caching_enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="db_caching_enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>DB Caching</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[This type of caching works only with Ajax Price Loading. Only disable caching in development or test systems. In production systems this should be enabled]]></comment>
@@ -16,7 +16,7 @@
                         <field id="ajax_enabled">1</field>
                     </depends>
                 </field>
-                <field id="cache_hours" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="cache_hours" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Cache Hours</label>
                     <comment><![CDATA[Enter number of hours for DB Caching]]></comment>
                     <validate>validate-greater-than-zero validate-number required-entry</validate>
@@ -25,7 +25,7 @@
                         <field id="db_caching_enabled">1</field>
                     </depends>
                 </field>
-                <field id="flush_cache" translate="label comment" type="button" sortOrder="300" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="flush_cache" translate="label comment" type="button" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                     <frontend_model>Commerce365\CustomerPrice\Block\Adminhtml\System\Config\Buttons\FlushCache</frontend_model>
                     <depends>
                         <field id="ajax_enabled">1</field>
@@ -65,6 +65,14 @@
                     <label>Preselect first swatch option on Product Page</label>
                     <comment>Hyva Only</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="high_level_cache_enabled" translate="label" type="select" sortOrder="510" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>High Level Cache</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Beta Feature. This type of caching will store all pregenerated data for the customer and will work only on Catalog and Search Pages. Time for caching will be used from Cache Hours setting]]></comment>
+                    <depends>
+                        <field id="ajax_enabled">1</field>
+                    </depends>
                 </field>
             </group>
             <group id="version" >

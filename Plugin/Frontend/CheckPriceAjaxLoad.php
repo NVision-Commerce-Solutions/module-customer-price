@@ -9,20 +9,13 @@ use Magento\Catalog\Pricing\Render\FinalPriceBox;
 
 class CheckPriceAjaxLoad
 {
-    private Config $config;
-
-    /**
-     * @param Config $config
-     */
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
+    public function __construct(private readonly Config $config) {}
 
     /**
      * @param FinalPriceBox $subject
      * @param bool $result
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterHasSpecialPrice(FinalPriceBox $subject, bool $result): bool
     {
@@ -33,6 +26,7 @@ class CheckPriceAjaxLoad
      * @param FinalPriceBox $subject
      * @param bool $result
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterShowMinimalPrice(FinalPriceBox $subject, bool $result): bool
     {

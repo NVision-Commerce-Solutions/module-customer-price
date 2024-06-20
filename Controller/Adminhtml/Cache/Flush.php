@@ -11,16 +11,13 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Flush extends Action
 {
-    private CleanCache $cleanCache;
-
     /**
      * @param CleanCache $cleanCache
      * @param Context $context
      */
-    public function __construct(CleanCache $cleanCache, Context $context)
+    public function __construct(private readonly CleanCache $cleanCache, Context $context)
     {
         parent::__construct($context);
-        $this->cleanCache = $cleanCache;
     }
 
     public function execute()

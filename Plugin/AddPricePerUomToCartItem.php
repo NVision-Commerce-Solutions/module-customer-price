@@ -11,14 +11,10 @@ use Magento\Quote\Model\Quote\Item;
 
 class AddPricePerUomToCartItem
 {
-    private GetPricePerUom $getPricePerUom;
-    private GetTierPricesPerUom $getTierPricesPerUom;
-
-    public function __construct(GetPricePerUom $getPricePerUom, GetTierPricesPerUom $getTierPricesPerUom)
-    {
-        $this->getPricePerUom = $getPricePerUom;
-        $this->getTierPricesPerUom = $getTierPricesPerUom;
-    }
+    public function __construct(
+        private readonly GetPricePerUom $getPricePerUom,
+        private readonly GetTierPricesPerUom $getTierPricesPerUom
+    ) {}
 
     /**
      * @param AbstractItem $subject

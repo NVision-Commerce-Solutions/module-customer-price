@@ -12,22 +12,11 @@ use Magento\Framework\View\LayoutInterface;
 
 class GetPriceConfig
 {
-    private LayoutInterface $layout;
-    private GetPricePerUom $getPricePerUom;
-    private SerializerInterface $serializer;
-
-    /**
-     * @param LayoutInterface $layout
-     */
     public function __construct(
-        LayoutInterface $layout,
-        GetPricePerUom $getPricePerUom,
-        SerializerInterface $serializer
-    ) {
-        $this->layout = $layout;
-        $this->getPricePerUom = $getPricePerUom;
-        $this->serializer = $serializer;
-    }
+        private readonly LayoutInterface $layout,
+        private readonly GetPricePerUom $getPricePerUom,
+        private readonly SerializerInterface $serializer
+    ) {}
 
     public function execute(ProductInterface $product)
     {

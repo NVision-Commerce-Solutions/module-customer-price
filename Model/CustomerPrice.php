@@ -3,37 +3,22 @@
 namespace Commerce365\CustomerPrice\Model;
 
 use Commerce365\CustomerPrice\Api\CustomerPriceInterface;
+use Commerce365\CustomerPrice\Service\Cache\HighLevelCacheWrapper;
 use Commerce365\CustomerPrice\Service\CurrentCustomer;
+use Commerce365\CustomerPrice\Service\CurrentStore;
 use Commerce365\CustomerPrice\Service\GetProductCollectionWithCustomerPrices;
-use Commerce365\CustomerPrice\Service\GetProductResponseData;
 use Exception;
-
 use Psr\Log\LoggerInterface;
 
 class CustomerPrice implements CustomerPriceInterface
 {
-    private LoggerInterface $logger;
-    private GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices;
-    private GetProductResponseData $getProductResponseData;
-    private CurrentCustomer $currentCustomer;
-
-    /**
-     * @param GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices
-     * @param GetProductResponseData $getProductResponseData
-     * @param CurrentCustomer $currentCustomer
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices,
-        GetProductResponseData $getProductResponseData,
-        CurrentCustomer $currentCustomer,
-        LoggerInterface $logger
-    ) {
-        $this->logger = $logger;
-        $this->getProductCollectionWithCustomerPrices = $getProductCollectionWithCustomerPrices;
-        $this->getProductResponseData = $getProductResponseData;
-        $this->currentCustomer = $currentCustomer;
-    }
+        private readonly GetProductCollectionWithCustomerPrices $getProductCollectionWithCustomerPrices,
+        private readonly HighLevelCacheWrapper $highLevelCacheWrapper,
+        private readonly CurrentCustomer $currentCustomer,
+        private readonly CurrentStore $currentStore,
+        private readonly LoggerInterface $logger
+    ) {}
 
     /**
      * @param $productInfo
@@ -54,13 +39,15 @@ class CustomerPrice implements CustomerPriceInterface
             return $response;
         }
         $this->currentCustomer->setId($customerId);
+        $this->currentStore->setId($storeId);
 
         $productInfo = array_unique($productInfo);
         $productCollection = $this->getProductCollectionWithCustomerPrices->execute($storeId, $productInfo, $customerId);
 
         try {
             foreach ($productCollection as $product) {
-                $response[] = $this->getProductResponseData->execute($product, $productId);
+                $response[] = $this->highLevelCacheWrapper->get($product, (int) $productId);
+
             }
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());

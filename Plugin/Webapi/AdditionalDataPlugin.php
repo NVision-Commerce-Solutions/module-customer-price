@@ -9,12 +9,7 @@ use Magento\Catalog\Model\Product;
 
 class AdditionalDataPlugin
 {
-    private GetPricePerUom $getPricePerUom;
-
-    public function __construct(GetPricePerUom $getPricePerUom)
-    {
-        $this->getPricePerUom = $getPricePerUom;
-    }
+    public function __construct(private readonly GetPricePerUom $getPricePerUom) {}
 
     public function afterGetData(Product $subject, $result, $key = null)
     {

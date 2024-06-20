@@ -11,16 +11,11 @@ use Magento\Framework\Controller\Result\Redirect;
 
 class FlushCustomer extends Action
 {
-    private CleanCacheCustomer $cleanCache;
-
-    /**
-     * @param CleanCacheCustomer $cleanCache
-     * @param Context $context
-     */
-    public function __construct(CleanCacheCustomer $cleanCache, Context $context)
-    {
+    public function __construct(
+        private readonly CleanCacheCustomer $cleanCache,
+        Context $context
+    ) {
         parent::__construct($context);
-        $this->cleanCache = $cleanCache;
     }
 
     /**

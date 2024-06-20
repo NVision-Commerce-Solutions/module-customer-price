@@ -7,6 +7,7 @@
                 <db_caching_enabled>1</db_caching_enabled>
                 <cache_hours>2</cache_hours>
                 <use_minimal_qty>0</use_minimal_qty>
+                <high_level_cache_enabled>0</high_level_cache_enabled>
             </b2b_pricing>
         </commerce365config_general>
     </default>

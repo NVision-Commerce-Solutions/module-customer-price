@@ -10,19 +10,11 @@ use Commerce365\CustomerPrice\Service\Request\GetCustomerPrices;
 
 class SyncPrices
 {
-    private SetCachedPriceData $setCachedPriceData;
-    private ResponseToDatabaseMapperInterface $responseToDatabaseMapper;
-    private GetCustomerPrices $getCustomerPrices;
-
     public function __construct(
-        GetCustomerPrices $getCustomerPrices,
-        SetCachedPriceData $setCachedPriceData,
-        ResponseToDatabaseMapperInterface $responseToDatabaseMapper
-    ) {
-        $this->setCachedPriceData = $setCachedPriceData;
-        $this->responseToDatabaseMapper = $responseToDatabaseMapper;
-        $this->getCustomerPrices = $getCustomerPrices;
-    }
+        private readonly GetCustomerPrices $getCustomerPrices,
+        private readonly SetCachedPriceData $setCachedPriceData,
+        private readonly ResponseToDatabaseMapperInterface $responseToDatabaseMapper
+    ) {}
 
     public function execute($productIds, $customerId)
     {

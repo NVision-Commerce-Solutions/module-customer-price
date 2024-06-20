@@ -10,15 +10,7 @@ use Magento\Framework\View\LayoutInterface;
 
 class GetConfigurableConfig
 {
-    private LayoutInterface $layout;
-
-    /**
-     * @param LayoutInterface $layout
-     */
-    public function __construct(LayoutInterface $layout)
-    {
-        $this->layout = $layout;
-    }
+    public function __construct(private readonly LayoutInterface $layout) {}
 
     public function execute(ProductInterface $product)
     {

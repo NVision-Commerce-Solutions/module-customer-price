@@ -9,24 +9,11 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
 class GetProductCollectionWithCustomerPrices
 {
-    private CollectionFactory $productCollectionFactory;
-    private GetPriceCollectionForProducts $getPriceCollectionForProducts;
-    private GetProductIdsForRequest $getProductIdsForRequest;
-
-    /**
-     * @param CollectionFactory $productCollectionFactory
-     * @param GetPriceCollectionForProducts $getPriceCollectionForProducts
-     * @param GetProductIdsForRequest $getProductIdsForRequest
-     */
     public function __construct(
-        CollectionFactory $productCollectionFactory,
-        GetPriceCollectionForProducts $getPriceCollectionForProducts,
-        GetProductIdsForRequest $getProductIdsForRequest
-    ) {
-        $this->productCollectionFactory = $productCollectionFactory;
-        $this->getPriceCollectionForProducts = $getPriceCollectionForProducts;
-        $this->getProductIdsForRequest = $getProductIdsForRequest;
-    }
+        private readonly CollectionFactory $productCollectionFactory,
+        private readonly GetPriceCollectionForProducts $getPriceCollectionForProducts,
+        private readonly GetProductIdsForRequest $getProductIdsForRequest
+    ) {}
 
     /**
      * @param $storeId

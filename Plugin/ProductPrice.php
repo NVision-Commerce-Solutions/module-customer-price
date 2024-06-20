@@ -16,33 +16,14 @@ use Magento\Customer\Model\SessionFactory;
 
 class ProductPrice
 {
-    private SessionFactory $customerSessionFactory;
-    private GetProductPriceData $getProductPriceData;
-    private Config $config;
-    private GetMinimalSalableQty $getMinimalSalableQty;
-    private GetPriceForQuantity $getPriceForQuantity;
-    private IsPriceCallAvailable $isPriceCallAvailable;
-
-    /**
-     * @param SessionFactory $customerSessionFactory
-     * @param GetProductPriceData $getProductPriceData
-     * @param Config $config
-     */
     public function __construct(
-        SessionFactory $customerSessionFactory,
-        GetProductPriceData $getProductPriceData,
-        GetMinimalSalableQty $getMinimalSalableQty,
-        GetPriceForQuantity $getPriceForQuantity,
-        Config $config,
-        IsPriceCallAvailable $isPriceCallAvailable
-    ) {
-        $this->customerSessionFactory = $customerSessionFactory;
-        $this->getProductPriceData = $getProductPriceData;
-        $this->config = $config;
-        $this->getMinimalSalableQty = $getMinimalSalableQty;
-        $this->getPriceForQuantity = $getPriceForQuantity;
-        $this->isPriceCallAvailable = $isPriceCallAvailable;
-    }
+        private readonly SessionFactory $customerSessionFactory,
+        private readonly GetProductPriceData $getProductPriceData,
+        private readonly GetMinimalSalableQty $getMinimalSalableQty,
+        private readonly GetPriceForQuantity $getPriceForQuantity,
+        private readonly Config $config,
+        private readonly IsPriceCallAvailable $isPriceCallAvailable
+    ) {}
 
     /**
      * @param Product $subject

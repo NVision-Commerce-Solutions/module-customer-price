@@ -11,24 +11,11 @@ use Magento\Framework\Serialize\SerializerInterface;
 
 class PriceCollectionBuilder
 {
-    private CollectionFactory $collectionFactory;
-    private CachedPriceFactory $cachedPriceFactory;
-    private SerializerInterface $serializer;
-
-    /**
-     * @param CollectionFactory $collectionFactory
-     * @param CachedPriceFactory $cachedPriceFactory
-     * @param SerializerInterface $serializer
-     */
     public function __construct(
-        CollectionFactory $collectionFactory,
-        CachedPriceFactory $cachedPriceFactory,
-        SerializerInterface $serializer
-    ) {
-        $this->collectionFactory = $collectionFactory;
-        $this->cachedPriceFactory = $cachedPriceFactory;
-        $this->serializer = $serializer;
-    }
+        private readonly CollectionFactory $collectionFactory,
+        private readonly CachedPriceFactory $cachedPriceFactory,
+        private readonly SerializerInterface $serializer
+    ) {}
 
     /**
      * @param array $buildData

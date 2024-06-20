@@ -14,34 +14,16 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class CustomerPrice implements ArgumentInterface
 {
-    private StoreManagerInterface $storeManager;
-    private Config $config;
-    private Registry $registry;
-    private Context $httpContext;
-    private SerializerInterface $serializer;
-
-    /**
-     * @param StoreManagerInterface $storeManager
-     * @param Context $httpContext
-     * @param Registry $registry
-     * @param Config $config
-     */
     public function __construct(
-        StoreManagerInterface $storeManager,
-        Context $httpContext,
-        Registry $registry,
-        Config $config,
-        SerializerInterface $serializer
-    ) {
-        $this->storeManager = $storeManager;
-        $this->config = $config;
-        $this->registry = $registry;
-        $this->httpContext = $httpContext;
-        $this->serializer = $serializer;
-    }
+        private readonly StoreManagerInterface $storeManager,
+        private readonly Context $httpContext,
+        private readonly Registry $registry,
+        private readonly Config $config,
+        private readonly SerializerInterface $serializer
+    ) {}
 
     /**
-     * @return array
+     * @return string
      * @throws NoSuchEntityException
      */
     public function getConfig(): string

@@ -10,18 +10,10 @@ use Magento\Customer\Model\SessionFactory;
 
 class ProductPlugin
 {
-    private Config $config;
-    private SessionFactory $customerSessionFactory;
-
-    /**
-     * @param Config $config
-     * @param SessionFactory $customerSessionFactory
-     */
-    public function __construct(Config $config, SessionFactory $customerSessionFactory)
-    {
-        $this->config = $config;
-        $this->customerSessionFactory = $customerSessionFactory;
-    }
+    public function __construct(
+        private readonly Config $config,
+        private readonly SessionFactory $customerSessionFactory
+    ) {}
 
     public function afterIsSalable(Product $subject, $result)
     {
@@ -34,7 +26,7 @@ class ProductPlugin
         return $result;
     }
 
-    public function afterGetData(Product $subject, $result, $key = '', $index = null)
+    public function afterGetData(Product $subject, $result, $key = '')
     {
         if ($key === 'can_show_price'
             && $this->config->isHidePricesGuest()

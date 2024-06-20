@@ -10,37 +10,20 @@ class CachedPrice extends DataObject
 {
     public const TABLE_NAME = 'commerce365_cached_price';
 
-    private float $price;
-    private array $tierPrices;
-    private array $additionalData;
-    private int $productId;
-    private ?float $specialPrice;
-
-    /**
-     * @param float $price
-     * @param int $productId
-     * @param float|null $specialPrice
-     * @param array|null $tierPrices
-     */
     public function __construct(
-        float $price,
-        int $productId,
-        float $specialPrice = null,
-        array $tierPrices = [],
-        array $additionalData = []
+        private readonly float $price,
+        private readonly int $productId,
+        private readonly ?float $specialPrice = null,
+        private readonly array $tierPrices = [],
+        private readonly array $additionalData = []
     ) {
         parent::__construct([
-           'price' => $price,
-           'tierPrices' => $tierPrices,
-           'specialPrice' => $specialPrice,
-           'productId' => $productId,
+            'price' => $price,
+            'tierPrices' => $tierPrices,
+            'specialPrice' => $specialPrice,
+            'productId' => $productId,
             'additionalData' => $additionalData
         ]);
-        $this->price = $price;
-        $this->tierPrices = $tierPrices;
-        $this->productId = $productId;
-        $this->specialPrice = $specialPrice;
-        $this->additionalData = $additionalData;
     }
 
     public function getPrice()

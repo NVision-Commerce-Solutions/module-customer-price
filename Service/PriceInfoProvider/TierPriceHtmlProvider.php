@@ -10,14 +10,11 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class TierPriceHtmlProvider implements PriceInfoProviderInterface
 {
-    private PriceRenderer $priceRenderer;
-    private IsChildOfGroupedProduct $isChildOfGroupedProduct;
+    public function __construct(
+        private readonly PriceRenderer $priceRenderer,
+        private readonly IsChildOfGroupedProduct $isChildOfGroupedProduct
+    ) {}
 
-    public function __construct(PriceRenderer $priceRenderer, IsChildOfGroupedProduct $isChildOfGroupedProduct)
-    {
-        $this->priceRenderer = $priceRenderer;
-        $this->isChildOfGroupedProduct = $isChildOfGroupedProduct;
-    }
     public function get(ProductInterface $product, $mainProductId = null, $mainProductType = ''): string
     {
         if ($product->getTypeId() === Configurable::TYPE_CODE && $product->getId() === $mainProductId) {

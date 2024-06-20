@@ -10,12 +10,7 @@ use Magento\Framework\Exception\LocalizedException;
 
 class GetMinimalSalableQty
 {
-    private StockRegistryInterface $stockRegistry;
-
-    public function __construct(StockRegistryInterface $stockRegistry)
-    {
-        $this->stockRegistry = $stockRegistry;
-    }
+    public function __construct(private readonly StockRegistryInterface $stockRegistry) {}
 
     /**
      * @param ProductInterface $product
