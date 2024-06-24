@@ -4,32 +4,33 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Model\Command;
 
-use Commerce365\CustomerPrice\Model\CachedPrice;
 use Commerce365\CustomerPrice\Model\Config;
+use Commerce365\CustomerPrice\Service\Cache\HighLevelCacheManager;
 use Magento\Framework\App\ResourceConnection;
 
-class GetCachedPriceData
+class GetPreparedPriceData
 {
     public function __construct(
         private readonly ResourceConnection $resourceConnection,
         private readonly Config $config
     ) {}
 
-    public function execute($productIds, $customerId): array
+    public function execute($productId, $customerId, $storeId): string|bool
     {
         if (!$this->config->isCachingEnabled()) {
-            return [];
+            return '';
         }
 
         $cacheHours = $this->config->getCacheHours();
         $connection = $this->resourceConnection->getConnection();
-        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(HighLevelCacheManager::TABLE_NAME);
         $select = $connection->select()
-            ->from($tableName, ['price_data', 'product_id'])
-            ->where('product_id  IN(?)', $productIds)
+            ->from($tableName, ['price_data'])
+            ->where('product_id = ?', $productId)
             ->where('customer_id = ?', $customerId)
+            ->where('store_id = ?', $storeId)
             ->where(sprintf('last_updated >= NOW() - INTERVAL %s HOUR', $cacheHours), '');
 
-        return $connection->fetchAll($select);
+        return  $connection->fetchOne($select);
     }
 }

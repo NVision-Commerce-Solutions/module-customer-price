@@ -4,7 +4,7 @@
     <table name="commerce365_cached_price" resource="default" engine="innodb" comment="Commerce365 Prices Table">
         <column xsi:type="bigint" name="id" padding="20" unsigned="true" nullable="false" identity="true" comment="Id"/>
         <column xsi:type="int" name="product_id" unsigned="true" nullable="false" identity="false" comment="Product Id"/>
-        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" identity="false" comment="Customer Id"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" identity="false" comment="Customer Id"/>
         <column xsi:type="text" name="price_data"  nullable="false" comment="Price Data"/>
         <column xsi:type="timestamp" name="last_updated" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"  comment="Last Updated"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
@@ -20,5 +20,29 @@
         <constraint xsi:type="foreign" referenceId="LSWF_CACHED_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID"
                   table="commerce365_cached_price" column="product_id" referenceTable="catalog_product_entity"
                   referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+    <table name="commerce365_prepared_price" resource="default" engine="innodb" comment="Commerce365 Prices Table">
+        <column xsi:type="bigint" name="id" padding="20" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false" identity="false" comment="Product Id"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" identity="false" comment="Customer Id"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false" comment="Store Id"/>
+        <column xsi:type="text" name="price_data"  nullable="false" comment="Price Data"/>
+        <column xsi:type="timestamp" name="last_updated" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"  comment="Last Updated"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNIQUE_PAIR">
+            <column name="product_id"/>
+            <column name="customer_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="COMMERCE365_PREPARED_PRICE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+                    table="commerce365_prepared_price" column="customer_id" referenceTable="customer_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="COMMERCE365_PREPARED_PRICE_STORE_ID_STORE_STORE_ID"
+                    table="commerce365_prepared_price" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="COMMERCE365_PREPARED_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID"
+                    table="commerce365_prepared_price" column="product_id" referenceTable="catalog_product_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
     </table>
 </schema>

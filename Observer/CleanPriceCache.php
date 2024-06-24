@@ -4,42 +4,21 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Observer;
 
-use Commerce365\CustomerPrice\Model\Command\CleanCache;
-use Commerce365\CustomerPrice\Model\Config;
-use Magento\Framework\App\Cache\Frontend\Pool;
+use Commerce365\CustomerPrice\Service\Cache\CleanCache;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
 class CleanPriceCache implements ObserverInterface
 {
-    private CleanCache $cleanCache;
-    private Pool $cachePool;
-
-    /**
-     * @param CleanCache $cleanCache
-     * @param Pool $cachePool
-     */
-    public function __construct(CleanCache $cleanCache, Pool $cachePool)
-    {
-        $this->cleanCache = $cleanCache;
-        $this->cachePool = $cachePool;
-    }
+    public function __construct(private readonly CleanCache $cleanCache) {}
 
     /**
      * @param Observer $observer
      * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $changedPaths = $observer->getEvent()->getChangedPaths();
-        if (in_array(Config::XML_PATH_SPECIAL_PRICE, $changedPaths)) {
-            $this->cleanCache->execute();
-        }
-
-        if (in_array(Config::XML_PATH_AJAX_ENABLED, $changedPaths)) {
-            foreach ($this->cachePool as $cacheFrontend) {
-                $cacheFrontend->getBackend()->clean();
-            }
-        }
+        $this->cleanCache->execute($changedPaths);
     }
 }

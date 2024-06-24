@@ -10,24 +10,11 @@ use Magento\Framework\Stdlib\DateTime;
 
 class ResponseToDatabaseMapper implements ResponseToDatabaseMapperInterface
 {
-    private SerializerInterface $serializer;
-    private DateTime $dateTime;
-    private PriceDataBuilder $priceDataBuilder;
-
-    /**
-     * @param SerializerInterface $serializer
-     * @param DateTime $dateTime
-     * @param PriceDataBuilder $priceDataBuilder
-     */
     public function __construct(
-        SerializerInterface $serializer,
-        DateTime $dateTime,
-        PriceDataBuilder $priceDataBuilder
-    ) {
-        $this->serializer = $serializer;
-        $this->dateTime = $dateTime;
-        $this->priceDataBuilder = $priceDataBuilder;
-    }
+        private readonly SerializerInterface $serializer,
+        private readonly DateTime $dateTime,
+        private readonly PriceDataBuilder $priceDataBuilder
+    ) {}
 
     public function map(array $priceResponse, $customerId): array
     {

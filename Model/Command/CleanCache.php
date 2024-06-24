@@ -9,15 +9,7 @@ use Magento\Framework\App\ResourceConnection;
 
 class CleanCache
 {
-    private ResourceConnection $resourceConnection;
-
-    /**
-     * @param ResourceConnection $resourceConnection
-     */
-    public function __construct(ResourceConnection $resourceConnection)
-    {
-        $this->resourceConnection = $resourceConnection;
-    }
+    public function __construct(private readonly ResourceConnection $resourceConnection) {}
 
     public function execute()
     {

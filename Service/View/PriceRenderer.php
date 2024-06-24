@@ -9,15 +9,7 @@ use Magento\Framework\View\LayoutInterface;
 
 class PriceRenderer
 {
-    private LayoutInterface $layout;
-
-    /**
-     * @param LayoutInterface $layout
-     */
-    public function __construct(LayoutInterface $layout)
-    {
-        $this->layout = $layout;
-    }
+    public function __construct(private readonly LayoutInterface $layout) {}
 
     public function renderFinalPrice($product, $zone = Render::ZONE_ITEM_VIEW, $isItemView = true)
     {

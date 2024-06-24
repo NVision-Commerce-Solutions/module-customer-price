@@ -6,32 +6,21 @@ namespace Commerce365\CustomerPrice\Service\Request;
 
 use Commerce365\Core\Model\AdvancedConfig;
 use Commerce365\Core\Service\Request\PostFactory;
+use Commerce365\CustomerPrice\Service\CurrentStore;
 use Commerce365\CustomerPrice\Service\Customer\CurrencyResolver;
 
 class GetCustomerPrices implements GetCustomerPricesInterface
 {
-    private CurrencyResolver $currencyResolver;
-    private AdvancedConfig $advancedConfig;
-    private PostFactory $postFactory;
-
-    /**
-     * @param CurrencyResolver $currencyResolver
-     * @param AdvancedConfig $advancedConfig
-     * @param PostFactory $postFactory
-     */
     public function __construct(
-        CurrencyResolver $currencyResolver,
-        AdvancedConfig $advancedConfig,
-        PostFactory $postFactory
-    ) {
-        $this->currencyResolver = $currencyResolver;
-        $this->advancedConfig = $advancedConfig;
-        $this->postFactory = $postFactory;
-    }
+        private readonly CurrencyResolver $currencyResolver,
+        private readonly AdvancedConfig $advancedConfig,
+        private readonly CurrentStore $currentStore,
+        private readonly PostFactory $postFactory
+    ) {}
 
     public function execute($productIds, $customerId)
     {
-        $post = $this->postFactory->create();
+        $post = $this->postFactory->create($this->currentStore->getId());
 
         $priceData = $post->execute($this->getMethod(), [
             'json' => $this->getJson($customerId, $productIds),
@@ -43,7 +32,8 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
     private function getMethod(): string
     {
-        if ($this->advancedConfig->isBCOAuth() || $this->advancedConfig->isBCBasic()) {
+        $currentStoreId = $this->currentStore->getId();
+        if ($this->advancedConfig->isBCOAuth($currentStoreId) || $this->advancedConfig->isBCBasic($currentStoreId)) {
             return 'GetPrices_GetPricesById';
         }
 
@@ -52,7 +42,8 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
     private function getJson($customerId, $productIds): array
     {
-        if ($this->advancedConfig->isBCOAuth() || $this->advancedConfig->isBCBasic()) {
+        $currentStoreId = $this->currentStore->getId();
+        if ($this->advancedConfig->isBCOAuth($currentStoreId) || $this->advancedConfig->isBCBasic($currentStoreId)) {
             return [
                 'customerId' => (int) $customerId,
                 'productIds' => array_values(array_map('intval', $productIds)),

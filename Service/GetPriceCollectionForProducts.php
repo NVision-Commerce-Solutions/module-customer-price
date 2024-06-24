@@ -4,39 +4,24 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
-use Commerce365\Core\Service\Customer\GetParentCustomer;
+use Commerce365\Core\Service\Customer\GetParentCustomerId;
 use Commerce365\CustomerPrice\Model\CachedPrice;
 use Commerce365\CustomerPrice\Service\Cache\GetCachedPriceCollection;
 
 class GetPriceCollectionForProducts
 {
-    private GetCachedPriceCollection $getCachedPriceCollection;
-    private SyncPrices $syncPrices;
-    private PriceCollectionBuilder $priceCollectionBuilder;
-    private GetParentCustomer $getParentCustomer;
-
-    /**
-     * @param GetCachedPriceCollection $getCachedPriceCollection
-     * @param SyncPrices $syncPrices
-     * @param PriceCollectionBuilder $priceCollectionBuilder
-     */
     public function __construct(
-        GetCachedPriceCollection $getCachedPriceCollection,
-        SyncPrices $syncPrices,
-        PriceCollectionBuilder $priceCollectionBuilder,
-        GetParentCustomer $getParentCustomer
-    ) {
-        $this->getCachedPriceCollection = $getCachedPriceCollection;
-        $this->syncPrices = $syncPrices;
-        $this->priceCollectionBuilder = $priceCollectionBuilder;
-        $this->getParentCustomer = $getParentCustomer;
-    }
+        private readonly GetCachedPriceCollection $getCachedPriceCollection,
+        private readonly SyncPrices $syncPrices,
+        private readonly PriceCollectionBuilder $priceCollectionBuilder,
+        private readonly GetParentCustomerId $getParentCustomerId
+    ) {}
 
     public function execute(array $productIds, $customerId)
     {
         $productIdsToLoad = [];
 
-        $customerId = $this->getParentCustomerId($customerId);
+        $customerId = $this->getParentCustomerId->execute($customerId);
         $priceCollection = $this->getCachedPriceCollection->execute($productIds, $customerId);
         /** @var CachedPrice $item */
         foreach ($productIds as $productId) {
@@ -68,12 +53,5 @@ class GetPriceCollectionForProducts
         $priceData = $this->syncPrices->execute($productIdsToLoad, $customerId);
 
         return $this->priceCollectionBuilder->build($priceData, $customerId);
-    }
-
-    private function getParentCustomerId($customerId)
-    {
-        $parentCustomer = $this->getParentCustomer->getByCustomerId($customerId);
-
-        return $parentCustomer ? $parentCustomer->getId() : $customerId;
     }
 }

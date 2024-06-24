@@ -10,12 +10,7 @@ use Magento\Framework\Locale\ListsInterface;
 
 class Currency extends AbstractSource implements OptionSourceInterface
 {
-    private ListsInterface $lists;
-
-    public function __construct(ListsInterface $lists)
-    {
-        $this->lists = $lists;
-    }
+    public function __construct(private readonly ListsInterface $lists) {}
 
     public function getAllOptions()
     {

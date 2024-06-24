@@ -11,12 +11,7 @@ use Magento\Framework\Pricing\Amount\Base;
 
 class ConfigurableRegularPricePlugin
 {
-    private FinalPriceResolver $finalPriceResolver;
-
-    public function __construct(FinalPriceResolver $finalPriceResolver)
-    {
-        $this->finalPriceResolver = $finalPriceResolver;
-    }
+    public function __construct(private readonly FinalPriceResolver $finalPriceResolver) {}
 
     /**
      * @param ConfigurableRegularPrice $subject

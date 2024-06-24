@@ -4,29 +4,26 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Model\Command;
 
-use Commerce365\CustomerPrice\Model\CachedPrice;
 use Commerce365\CustomerPrice\Model\Config;
+use Commerce365\CustomerPrice\Service\Cache\HighLevelCacheManager;
 use Magento\Framework\App\ResourceConnection;
 
-class SetCachedPriceData
+class SetPreparedPriceData
 {
     public function __construct(
         private readonly ResourceConnection $resourceConnection,
         private readonly Config $config
     ) {}
 
-    public function execute(array $dataToInsert): bool
+    public function execute(array $data): bool
     {
         if (!$this->config->isCachingEnabled()) {
             return true;
         }
 
-        if (empty($dataToInsert)) {
-            return true;
-        }
+        $tableName = $this->resourceConnection->getTableName(HighLevelCacheManager::TABLE_NAME);
+        $this->resourceConnection->getConnection()->insertOnDuplicate($tableName, $data);
 
-        $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
-        $this->resourceConnection->getConnection()->insertOnDuplicate($tableName, $dataToInsert);
         return true;
     }
 }

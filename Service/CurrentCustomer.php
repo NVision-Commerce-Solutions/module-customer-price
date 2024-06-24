@@ -9,12 +9,8 @@ use Magento\Customer\Model\SessionFactory;
 class CurrentCustomer
 {
     private int $currentCustomerId = 0;
-    private SessionFactory $sessionFactory;
 
-    public function __construct(SessionFactory $sessionFactory)
-    {
-        $this->sessionFactory = $sessionFactory;
-    }
+    public function __construct(private readonly SessionFactory $sessionFactory) {}
 
     public function setId(string $customerId): void
     {

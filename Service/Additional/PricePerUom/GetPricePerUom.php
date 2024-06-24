@@ -12,22 +12,12 @@ class GetPricePerUom
 {
     public const PRICE_PER_UOM_KEY = 'pricePerUOM';
 
-    private GetProductPriceData $getProductPriceData;
-    private CurrentCustomer $currentCustomer;
-    private PriceCurrencyInterface $priceCurrency;
-    private PricePerUomChecker $pricePerUomChecker;
-
     public function __construct(
-        GetProductPriceData $getProductPriceData,
-        CurrentCustomer $currentCustomer,
-        PriceCurrencyInterface $priceCurrency,
-        PricePerUomChecker $pricePerUomChecker
-    ) {
-        $this->getProductPriceData = $getProductPriceData;
-        $this->currentCustomer = $currentCustomer;
-        $this->priceCurrency = $priceCurrency;
-        $this->pricePerUomChecker = $pricePerUomChecker;
-    }
+        private readonly GetProductPriceData $getProductPriceData,
+        private readonly CurrentCustomer $currentCustomer,
+        private readonly PriceCurrencyInterface $priceCurrency,
+        private readonly PricePerUomChecker $pricePerUomChecker
+    ) {}
 
     public function execute($productId): array
     {

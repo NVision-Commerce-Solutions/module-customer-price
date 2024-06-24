@@ -11,24 +11,11 @@ use Magento\Framework\Data\CollectionFactory;
 
 class GetCachedPriceCollection
 {
-    private CollectionFactory $collectionFactory;
-    private GetCachedPriceData $getCachedPriceData;
-    private PriceCollectionBuilder $priceCollectionBuilder;
-
-    /**
-     * @param CollectionFactory $collectionFactory
-     * @param GetCachedPriceData $getCachedPriceData
-     * @param PriceCollectionBuilder $priceCollectionBuilder
-     */
     public function __construct(
-        CollectionFactory $collectionFactory,
-        GetCachedPriceData $getCachedPriceData,
-        PriceCollectionBuilder $priceCollectionBuilder
-    ) {
-        $this->collectionFactory = $collectionFactory;
-        $this->getCachedPriceData = $getCachedPriceData;
-        $this->priceCollectionBuilder = $priceCollectionBuilder;
-    }
+        private readonly CollectionFactory $collectionFactory,
+        private readonly GetCachedPriceData $getCachedPriceData,
+        private readonly PriceCollectionBuilder $priceCollectionBuilder
+    ) {}
 
     public function execute(array $productIds, $customerId): Collection
     {

@@ -9,16 +9,7 @@ use Magento\Framework\Pricing\Render\Amount;
 
 class ListCheckAjaxPriceCall
 {
-    private GetPrice $getPrice;
-
-    /**
-     * @param GetPrice $getPrice
-     */
-    public function __construct(
-        GetPrice $getPrice
-    ) {
-        $this->getPrice = $getPrice;
-    }
+    public function __construct(private readonly GetPrice $getPrice) {}
 
     /**
      * @param Amount $subject

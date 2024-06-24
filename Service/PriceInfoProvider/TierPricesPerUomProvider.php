@@ -11,14 +11,10 @@ use Magento\Framework\Serialize\SerializerInterface;
 
 class TierPricesPerUomProvider implements PriceInfoProviderInterface
 {
-    private GetTierPricesPerUom $getTierPricesPerUom;
-    private SerializerInterface $serializer;
-
-    public function __construct(GetTierPricesPerUom $getTierPricesPerUom, SerializerInterface $serializer)
-    {
-        $this->getTierPricesPerUom = $getTierPricesPerUom;
-        $this->serializer = $serializer;
-    }
+    public function __construct(
+        private readonly GetTierPricesPerUom $getTierPricesPerUom,
+        private readonly SerializerInterface $serializer
+    ) {}
 
     public function get(ProductInterface $product, $mainProductId = null, $mainProductType = ''): string
     {

@@ -9,16 +9,10 @@ use Commerce365\CustomerPrice\Service\Additional\AdditionalDataBuilder;
 
 class PriceDataBuilder
 {
-    private Config $config;
-    private AdditionalDataBuilder $additionalDataBuilder;
-
     public function __construct(
-        Config $config,
-        AdditionalDataBuilder $additionalDataBuilder
-    ) {
-        $this->config = $config;
-        $this->additionalDataBuilder = $additionalDataBuilder;
-    }
+        private readonly Config $config,
+        private readonly AdditionalDataBuilder $additionalDataBuilder
+    ) {}
 
     public function build(array $responseItem): array
     {

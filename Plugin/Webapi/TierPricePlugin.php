@@ -15,22 +15,12 @@ use Magento\Framework\Pricing\Amount\Base;
 
 class TierPricePlugin
 {
-    private SessionFactory $customerSessionFactory;
-    private GetProductPriceData $getProductPriceData;
-    private GetTierPricesPerUom $getTierPricesPerUom;
-    private Config $config;
-
     public function __construct(
-        SessionFactory $customerSessionFactory,
-        GetProductPriceData $getProductPriceData,
-        GetTierPricesPerUom $getTierPricesPerUom,
-        Config $config
-    ) {
-        $this->customerSessionFactory = $customerSessionFactory;
-        $this->getProductPriceData = $getProductPriceData;
-        $this->getTierPricesPerUom = $getTierPricesPerUom;
-        $this->config = $config;
-    }
+        private readonly SessionFactory $customerSessionFactory,
+        private readonly GetProductPriceData $getProductPriceData,
+        private readonly GetTierPricesPerUom $getTierPricesPerUom,
+        private readonly Config $config
+    ) {}
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
     {

@@ -9,18 +9,14 @@ use Magento\Framework\Pricing\Render\Amount;
 
 class HidePriceAmount
 {
-    private GetPrice $getPrice;
-
-    public function __construct(GetPrice $getPrice)
-    {
-        $this->getPrice = $getPrice;
-    }
+    public function __construct(private readonly GetPrice $getPrice) {}
 
     /**
      * @param Amount $subject
-     * @return array
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterToHtml(Amount $subject, $result)
+    public function afterToHtml(Amount $subject, $result): string
     {
         return $this->getPrice->execute($result);
     }

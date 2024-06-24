@@ -10,12 +10,8 @@ use Magento\Framework\App\ResourceConnection;
 class GetTypeIdByProductId
 {
     private const TABLE_NAME = 'catalog_product_entity';
-    private ResourceConnection $resourceConnection;
 
-    public function __construct(ResourceConnection $resourceConnection)
-    {
-        $this->resourceConnection = $resourceConnection;
-    }
+    public function __construct(private readonly ResourceConnection $resourceConnection) {}
 
     public function execute($productId): string
     {

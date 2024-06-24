@@ -10,16 +10,10 @@ use Magento\Customer\Model\SessionFactory;
 
 class TierPricePlugin
 {
-    private SessionFactory $customerSessionFactory;
-    private Config $config;
-
     public function __construct(
-        SessionFactory $customerSessionFactory,
-        Config $config
-    ) {
-        $this->customerSessionFactory = $customerSessionFactory;
-        $this->config = $config;
-    }
+        private readonly SessionFactory $customerSessionFactory,
+        private readonly Config $config
+    ) {}
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
     {

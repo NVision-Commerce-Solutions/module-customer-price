@@ -8,19 +8,10 @@ use Commerce365\CustomerPrice\Model\Config;
 
 class PricePerUomChecker
 {
-    private Config $config;
-
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
+    public function __construct(private readonly Config $config) {}
 
     public function canShow(): bool
     {
-        if ($this->config->showPricePerUom()) {
-            return true;
-        }
-
-        return false;
+        return $this->config->showPricePerUom();
     }
 }

@@ -10,20 +10,10 @@ use Magento\Customer\Api\GroupManagementInterface;
 
 class GetPriceForQuantity
 {
-    private GetProductPriceData $getProductPriceData;
-    private GroupManagementInterface $groupManagement;
-
-    /**
-     * @param GetProductPriceData $getProductPriceData
-     * @param GroupManagementInterface $groupManagement
-     */
     public function __construct(
-        GetProductPriceData $getProductPriceData,
-        GroupManagementInterface $groupManagement
-    ) {
-        $this->getProductPriceData = $getProductPriceData;
-        $this->groupManagement = $groupManagement;
-    }
+        private readonly GetProductPriceData $getProductPriceData,
+        private readonly GroupManagementInterface $groupManagement
+    ) {}
 
     public function execute(Product $product, $customerId, $qty = null)
     {

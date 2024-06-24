@@ -16,5 +16,22 @@
             "COMMERCE365_CACHED_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
             "COMMERCE365_CACHED_PRICE_PRODUCT_ID_CUSTOMER_ID": true
         }
+    },
+    "commerce365_prepared_price": {
+        "column": {
+            "id": true,
+            "product_id": true,
+            "customer_id": true,
+            "price_data": true,
+            "last_updated": true,
+            "store_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "COMMERCE365_PREPARED_PRICE_PRODUCT_ID_CUSTOMER_ID": true,
+            "COMMERCE365_PREPARED_PRICE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true,
+            "COMMERCE365_PREPARED_PRICE_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
+            "COMMERCE365_PREPARED_PRICE_STORE_ID_STORE_STORE_ID": true
+        }
     }
 }

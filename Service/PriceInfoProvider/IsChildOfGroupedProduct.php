@@ -11,13 +11,7 @@ use Magento\GroupedProduct\Model\ResourceModel\Product\Link;
 
 class IsChildOfGroupedProduct
 {
-    private Link $productLinks;
-
-    public function __construct(Link $productLinks)
-    {
-
-        $this->productLinks = $productLinks;
-    }
+    public function __construct(private readonly Link $productLinks) {}
 
     public function check(ProductInterface $product, $mainProductId = null, $mainProductType = ''): bool
     {

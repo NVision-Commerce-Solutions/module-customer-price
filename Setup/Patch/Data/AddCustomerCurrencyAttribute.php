@@ -14,19 +14,12 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 class AddCustomerCurrencyAttribute implements DataPatchInterface
 {
     private const ATTRIBUTE_NAME = 'bc_customer_currency';
-    private EavSetupFactory $setupFactory;
-    private ModuleDataSetupInterface $moduleDataSetup;
-    private Config $eavConfig;
 
     public function __construct(
-        EavSetupFactory $setupFactory,
-        ModuleDataSetupInterface $moduleDataSetup,
-        Config $eavConfig
-    ) {
-        $this->setupFactory = $setupFactory;
-        $this->moduleDataSetup = $moduleDataSetup;
-        $this->eavConfig = $eavConfig;
-    }
+        private readonly EavSetupFactory $setupFactory,
+        private readonly ModuleDataSetupInterface $moduleDataSetup,
+        private readonly Config $eavConfig
+    ) {}
 
     public function getAliases(): array
     {

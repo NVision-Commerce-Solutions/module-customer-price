@@ -10,24 +10,11 @@ use Magento\Framework\App\RequestInterface;
 
 class GetPrice
 {
-    private Config $config;
-    private SessionFactory $customerSessionFactory;
-    private RequestInterface $request;
-
-    /**
-     * @param Config $config
-     * @param SessionFactory $customerSessionFactory
-     * @param RequestInterface $request
-     */
     public function __construct(
-        Config $config,
-        SessionFactory $customerSessionFactory,
-        RequestInterface $request
-    ) {
-        $this->config = $config;
-        $this->customerSessionFactory = $customerSessionFactory;
-        $this->request = $request;
-    }
+        private readonly Config $config,
+        private readonly SessionFactory $customerSessionFactory,
+        private readonly RequestInterface $request
+    ) {}
 
     public function execute($default)
     {

@@ -11,16 +11,10 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 class ClearCustomerCurrencyValues implements DataPatchInterface
 {
-    private AttributeRepositoryInterface $attributeRepository;
-    private ResourceConnection $resourceConnection;
-
     public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        ResourceConnection $resourceConnection
-    ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->resourceConnection = $resourceConnection;
-    }
+        private readonly AttributeRepositoryInterface $attributeRepository,
+        private readonly ResourceConnection $resourceConnection
+    ) {}
 
     public function apply(): void
     {

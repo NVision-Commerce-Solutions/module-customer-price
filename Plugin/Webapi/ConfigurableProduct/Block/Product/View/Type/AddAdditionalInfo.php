@@ -10,18 +10,10 @@ use Magento\Framework\Serialize\Serializer\Json;
 
 class AddAdditionalInfo
 {
-    private Json $jsonSerializer;
-    private GetPricePerUom $getPricePerUom;
-
-    /**
-     * @param Json $jsonSerializer
-     * @param GetPricePerUom $getPricePerUom
-     */
-    public function __construct(Json $jsonSerializer, GetPricePerUom $getPricePerUom)
-    {
-        $this->jsonSerializer = $jsonSerializer;
-        $this->getPricePerUom = $getPricePerUom;
-    }
+    public function __construct(
+        private readonly Json $jsonSerializer,
+        private readonly GetPricePerUom $getPricePerUom
+    ) {}
 
     /**
      * Add data about sales channel info and sku.
@@ -43,7 +35,7 @@ class AddAdditionalInfo
         return $this->getResult($jsonConfig);
     }
 
-    private function getResult(array $jsonConfig)
+    private function getResult(array $jsonConfig): bool|string
     {
         return $this->jsonSerializer->serialize($jsonConfig);
     }

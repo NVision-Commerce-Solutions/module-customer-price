@@ -12,24 +12,11 @@ use Magento\Customer\Model\SessionFactory;
 
 class SimplePricePlugin
 {
-    private SessionFactory $customerSessionFactory;
-    private GetPriceForQuantity $getPriceForQuantity;
-    private Config $config;
-
-    /**
-     * @param SessionFactory $customerSessionFactory
-     * @param GetPriceForQuantity $getPriceForQuantity
-     * @param Config $config
-     */
     public function __construct(
-        SessionFactory $customerSessionFactory,
-        GetPriceForQuantity $getPriceForQuantity,
-        Config $config
-    ) {
-        $this->customerSessionFactory = $customerSessionFactory;
-        $this->getPriceForQuantity = $getPriceForQuantity;
-        $this->config = $config;
-    }
+        private readonly SessionFactory $customerSessionFactory,
+        private readonly GetPriceForQuantity $getPriceForQuantity,
+        private readonly Config $config
+    ) {}
 
     /**
      * @param Price $subject

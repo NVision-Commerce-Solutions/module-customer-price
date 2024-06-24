@@ -9,15 +9,7 @@ use Magento\ConfigurableProduct\Pricing\Price\FinalPrice;
 
 class ConfigurableFinalPricePlugin
 {
-    private FinalPriceResolver $finalPriceResolver;
-
-    /**
-     * @param FinalPriceResolver $finalPriceResolver
-     */
-    public function __construct(FinalPriceResolver $finalPriceResolver)
-    {
-        $this->finalPriceResolver = $finalPriceResolver;
-    }
+    public function __construct(private readonly FinalPriceResolver $finalPriceResolver) {}
 
     /**
      * @param FinalPrice $subject

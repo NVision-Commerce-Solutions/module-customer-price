@@ -2,29 +2,12 @@
 
 namespace Commerce365\CustomerPrice\Block\Adminhtml\Edit;
 
-use Magento\Backend\Block\Widget\Context;
 use Magento\Customer\Block\Adminhtml\Edit\GenericButton;
-use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 class FlushCacheButton extends GenericButton implements ButtonProviderInterface
 {
-
-    /**
-     * @param Context $context
-     * @param Registry $registry
-     */
-    public function __construct(
-        Context $context,
-        Registry $registry
-    ) {
-        parent::__construct($context, $registry);
-    }
-
-    /**
-     * @return array
-     */
-    public function getButtonData()
+    public function getButtonData(): array
     {
         $customerId = $this->getCustomerId();
         $data = [];
@@ -39,12 +22,7 @@ class FlushCacheButton extends GenericButton implements ButtonProviderInterface
         return $data;
     }
 
-    /**
-     * Retrieve the Url for creating an order.
-     *
-     * @return string
-     */
-    public function getFlushCacheUrl()
+    public function getFlushCacheUrl(): string
     {
         return $this->getUrl('commerce365_customerprice/cache/flushCustomer', ['customer_id' => $this->getCustomerId()]);
     }

@@ -12,22 +12,12 @@ use Magento\Customer\Model\SessionFactory;
 
 class ProductListPricesPreloadToCache
 {
-    private Config $config;
-    private GetProductIdsForRequest $getProductIdsForRequest;
-    private GetPriceCollectionForProducts $getPriceCollection;
-    private SessionFactory $sessionFactory;
-
     public function __construct(
-        Config $config,
-        GetProductIdsForRequest $getProductIdsForRequest,
-        GetPriceCollectionForProducts $getPriceCollection,
-        SessionFactory $sessionFactory
-    ) {
-        $this->config = $config;
-        $this->getProductIdsForRequest = $getProductIdsForRequest;
-        $this->getPriceCollection = $getPriceCollection;
-        $this->sessionFactory = $sessionFactory;
-    }
+        private readonly Config $config,
+        private readonly GetProductIdsForRequest $getProductIdsForRequest,
+        private readonly GetPriceCollectionForProducts $getPriceCollection,
+        private readonly SessionFactory $sessionFactory
+    ) {}
 
     /**
      * @param ListProduct $subject
