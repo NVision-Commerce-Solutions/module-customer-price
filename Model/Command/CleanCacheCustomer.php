@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Model\Command;
 
 use Commerce365\CustomerPrice\Model\CachedPrice;
+use Commerce365\CustomerPrice\Service\Cache\HighLevelCacheManager;
 use Magento\Framework\App\ResourceConnection;
 
 class CleanCacheCustomer
@@ -14,6 +15,9 @@ class CleanCacheCustomer
     public function execute($customerId)
     {
         $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
+        $this->resourceConnection->getConnection()->delete($tableName, ['customer_id = ?' => $customerId]);
+
+        $tableName = $this->resourceConnection->getTableName(HighLevelCacheManager::TABLE_NAME);
         $this->resourceConnection->getConnection()->delete($tableName, ['customer_id = ?' => $customerId]);
     }
 }
