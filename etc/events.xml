@@ -4,4 +4,10 @@
     <event name="admin_system_config_changed_section_commerce365config_general">
         <observer name="commerce365_cache_clean_after_config_save" instance="Commerce365\CustomerPrice\Observer\CleanPriceCache" />
     </event>
+    <event name="adminhtml_cache_flush_system">
+        <observer name="commerce365_flush_system_customerprice" instance="Commerce365\CustomerPrice\Observer\FlushAllCache" />
+    </event>
+    <event name="adminhtml_cache_flush_all">
+        <observer name="commerce365_flush_all_customerprice" instance="Commerce365\CustomerPrice\Observer\FlushAllCache" />
+    </event>
 </config>

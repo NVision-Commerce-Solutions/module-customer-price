@@ -24,7 +24,7 @@ class FlushCache extends Field
 
     public function getAjaxUrl(): string
     {
-        return $this->getUrl('commerce365_customerprice/cache/flush');
+        return $this->getUrl('commerce365_customerprice/cache/flushFromConfig');
     }
 
     public function getButtonHtml(): string
