@@ -1,0 +1,19 @@
+<?php
+
+/** @var \Magento\Backend\Block\Cache\Permissions|null $permissions */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+$permissions = $block->getData('permissions');
+?>
+<?php if ($permissions->hasAccessToFlushPriceCache()): ?>
+    <p>
+        <button id="flushCustomerPriceCache" type="button">
+            <?= $block->escapeHtml(__('Flush Customer Prices Cache')); ?>
+        </button>
+        <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+            'onclick',
+            'setLocation(\'' . $block->escapeJs($block->getFlushCustomerPriceCacheUrl()) . '\')',
+            'button#flushCustomerPriceCache'
+        ) ?>
+    </p>
+<?php endif; ?>
