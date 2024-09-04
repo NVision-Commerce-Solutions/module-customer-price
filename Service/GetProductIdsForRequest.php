@@ -17,9 +17,10 @@ class GetProductIdsForRequest
     {
         $productIds = [];
         $collectionClone = clone $collection;
-        
+
         foreach ($collectionClone as $product) {
-            if ($product->getTypeId() !== Type::DEFAULT_TYPE) {
+            $productType = $product->getTypeId();
+            if ($productType !== Type::DEFAULT_TYPE && $productType !== Type::TYPE_VIRTUAL) {
                 $childrenIds = $product->getTypeInstance()->getChildrenIds($product->getId());
                 $childrenIds = array_shift($childrenIds);
                 foreach ($childrenIds as $childrenId) {
