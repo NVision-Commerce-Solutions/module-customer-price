@@ -30,9 +30,14 @@ class GetPrice
             return '';
         }
 
-         if ($this->customerSessionFactory->create()->isLoggedIn()) {
-             return $default;
-         }
+    	if ($this->customerSessionFactory->create()->isLoggedIn()) {
+    		return $default;
+    	} else {
+    		if ($this->config->isHidePricesGuest()) {
+    			return '';
+    		}
+    		return $default;
+    	}
 
         return '<div class="commerce365-price-placeholder"></div>';
     }
