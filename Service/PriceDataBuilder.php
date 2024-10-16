@@ -39,6 +39,11 @@ class PriceDataBuilder
         }
 
         $priceData['tier_prices'] = $tierPrices;
+        if (!isset($priceData['price']) && !empty($tierPrices)) {
+            $minimumPrice = $tierPrices[0]['price'];
+            $priceData['price'] = $minimumPrice;
+            $priceData['special_price'] = $minimumPrice;
+        }
 
         return $priceData;
     }
