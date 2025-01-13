@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Template for displaying grouped product price
+ */
+?>
+<?php
+$minProduct = $block->getSaleableItem()
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getMinProduct();
+
+if ($minProduct) {
+    $amountRender = $block->getRendererPool()
+        ->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('final_price'),
+            ['include_container' => true]
+        );
+}
+?>
+<div class="price-box">
+    <?php if ($minProduct && \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW != $block->getZone()) : ?>
+    <p class="minimal-price">
+        <span class="price-label"><?= $block->escapeHtml(__('Starting at')) ?></span><?= $amountRender->toHtml() ?>
+    </p>
+    <?php endif ?>
+    <?php
+    $additionalData = $minProduct->getData('additional_price_data');
+    ?>
+    <?php if (!empty($additionalData['pricePerUOM']) && !empty($additionalData['UOM'])): ?>
+        <div class="commerce365-price-per-uom">
+            <?= $additionalData['pricePerUOM'] ?>/<?= $additionalData['UOM'] ?>
+        </div>
+    <?php endif; ?>
+</div>

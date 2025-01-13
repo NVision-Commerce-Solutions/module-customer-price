@@ -43,7 +43,7 @@
                 <item name="prices" xsi:type="array">
                     <item name="final_price" xsi:type="array">
                         <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
-                        <item name="render_template" xsi:type="string">Magento_GroupedProduct::product/price/final_price.phtml</item>
+                        <item name="render_template" xsi:type="string">Commerce365_CustomerPrice::product/price/grouped/final_price.phtml</item>
                     </item>
                 </item>
             </argument>
