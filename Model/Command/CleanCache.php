@@ -14,12 +14,12 @@ class CleanCache
 
     public function execute(): void
     {
-        if($this->resourceConnection->getConnection()->isTableExists(CachedPrice::TABLE_NAME)) {
+        if ($this->resourceConnection->getConnection()->isTableExists(CachedPrice::TABLE_NAME)) {
             $tableName = $this->resourceConnection->getTableName(CachedPrice::TABLE_NAME);
             $this->resourceConnection->getConnection()->truncateTable($tableName);
         }
 
-        if($this->resourceConnection->getConnection()->isTableExists(HighLevelCacheManager::TABLE_NAME)) {
+        if ($this->resourceConnection->getConnection()->isTableExists(HighLevelCacheManager::TABLE_NAME)) {
             $tableName = $this->resourceConnection->getTableName(HighLevelCacheManager::TABLE_NAME);
             $this->resourceConnection->getConnection()->truncateTable($tableName);
         }
