@@ -19,7 +19,7 @@ class TierPricesPerUomProvider implements PriceInfoProviderInterface
     public function get(ProductInterface $product, $mainProductId = null, $mainProductType = ''): string
     {
         $tierPriceData = [];
-        if ($mainProductId !== $product->getId()) {
+        if ((int) $mainProductId !== (int) $product->getId()) {
             return $this->serializer->serialize($tierPriceData);
         }
 
