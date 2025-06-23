@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service;
 
 use Commerce365\CustomerPrice\Model\CachedPriceFactory;
+use Commerce365\CustomerPrice\Service\Response\PostProcessorInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\CollectionFactory;
 use Magento\Framework\Serialize\SerializerInterface;
@@ -14,7 +15,8 @@ class PriceCollectionBuilder
     public function __construct(
         private readonly CollectionFactory $collectionFactory,
         private readonly CachedPriceFactory $cachedPriceFactory,
-        private readonly SerializerInterface $serializer
+        private readonly SerializerInterface $serializer,
+        private readonly PostProcessorInterface $postProcessor
     ) {}
 
     /**
@@ -35,6 +37,7 @@ class PriceCollectionBuilder
 
         foreach ($buildData as $item) {
             $priceData = $this->serializer->unserialize($item['price_data']);
+            $priceData = $this->postProcessor->process($priceData, $item['product_id']);
             $cachedPrice = $this->cachedPriceFactory->create([
                 'price' => $priceData['price'] ?? null,
                 'productId' => $item['product_id'],
