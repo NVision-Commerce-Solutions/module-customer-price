@@ -8,6 +8,7 @@
     <preference for="Magento\ConfigurableProduct\Pricing\Render\TierPriceBox"
                 type="Commerce365\CustomerPrice\Pricing\Render\TierPriceBox"/>
     <preference for="Magento\Catalog\Block\Product\View" type="Commerce365\CustomerPrice\Block\Product\View"/>
+    <preference for="Commerce365\CustomerPrice\Service\Response\PostProcessorInterface" type="Commerce365\CustomerPrice\Service\Response\PostProcessorComposite"/>
 
     <virtualType name="Commerce365CustomerPriceSyncHandler" type="Magento\Framework\Logger\Handler\Base">
         <arguments>
@@ -74,5 +75,12 @@
     <type name="Magento\Checkout\CustomerData\AbstractItem">
         <plugin name="commerce365_add_price_per_uom_to_cart_item"
                 type="Commerce365\CustomerPrice\Plugin\AddPricePerUomToCartItem"/>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\Response\PostProcessorComposite">
+        <arguments>
+            <argument xsi:type="array" name="postProcessors">
+                <item xsi:type="object" name="tax">Commerce365\CustomerPrice\Service\Response\TaxPostProcessor</item>
+            </argument>
+        </arguments>
     </type>
 </config>
