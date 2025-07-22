@@ -32,7 +32,7 @@ class PriceCollectionBuilder
         $collection = $this->collectionFactory->create();
 
         if (empty($buildData)) {
-            return $collection;
+            return $this->simulateData($customerId, $collection);
         }
 
         foreach ($buildData as $item) {
@@ -50,5 +50,19 @@ class PriceCollectionBuilder
         }
 
         return $collection;
+    }
+
+    private function simulateData($customerId, $collection)
+    {
+        $cachedPrice = $this->cachedPriceFactory->create([
+            'price' => 0,
+            'productId' => 0,
+            'specialPrice' => null,
+            'customerId' => $customerId,
+            'tierPrices' => [],
+            'additionalData' => []
+        ]);
+
+        return $collection->addItem($cachedPrice);
     }
 }
