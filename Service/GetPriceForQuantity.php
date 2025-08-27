@@ -20,7 +20,7 @@ class GetPriceForQuantity
         $priceData = $this->getProductPriceData->execute($product->getId(), $customerId);
         if (empty($priceData->getTierPrices())) {
             if ($qty !== null) {
-                return $priceData->getPrice();
+                return $priceData->getPrice() > 0 ? $priceData->getPrice() : $product->getPrice();
             }
 
             return [
