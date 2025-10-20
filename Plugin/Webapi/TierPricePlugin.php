@@ -12,6 +12,8 @@ use Magento\Catalog\Model\Product\Type;
 use Magento\Catalog\Pricing\Price\TierPrice;
 use Magento\Customer\Model\SessionFactory;
 use Magento\Framework\Pricing\Amount\Base;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Tax\Helper\Data;
 
 class TierPricePlugin
 {
@@ -19,7 +21,9 @@ class TierPricePlugin
         private readonly SessionFactory $customerSessionFactory,
         private readonly GetProductPriceData $getProductPriceData,
         private readonly GetTierPricesPerUom $getTierPricesPerUom,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly CalculatorInterface $calculator,
+        private readonly Data $taxHelper
     ) {}
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
@@ -38,14 +42,17 @@ class TierPricePlugin
         $priceId = 0;
         $priceData = $this->getProductPriceData->execute($product->getId(), $customerId);
         $tierPrices = $priceData['tierPrices'] ?? [];
+        $displayInclTax = $this->taxHelper->displayPriceIncludingTax();
 
         foreach ($tierPrices as $price) {
+            $realPrice = $displayInclTax ?
+                new Base($price['price']) : $this->calculator->getAmount($price['price'], $product);
             $tierPriceData = [
                 'price_id' => ++$priceId,
                 'website_id' => '0',
                 'all_groups' => '1',
                 'cust_group' => 0,
-                'price' => new Base($price['price']),
+                'price' => $realPrice,
                 'price_qty' => (int) $price['qty'],
                 'website_price' => $price['price'],
             ];
