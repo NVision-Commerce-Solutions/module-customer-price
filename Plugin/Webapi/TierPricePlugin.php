@@ -44,17 +44,17 @@ class TierPricePlugin
         $tierPrices = $priceData['tierPrices'] ?? [];
         $displayInclTax = $this->taxHelper->displayPriceIncludingTax();
 
-        foreach ($tierPrices as $price) {
-            $realPrice = $displayInclTax ?
-                new Base($price['price']) : $this->calculator->getAmount($price['price'], $product);
+        foreach ($tierPrices as $tierPrice) {
+            $price = $displayInclTax ?
+                new Base($tierPrice['price']) : $this->calculator->getAmount($tierPrice['price'], $product);
             $tierPriceData = [
                 'price_id' => ++$priceId,
                 'website_id' => '0',
                 'all_groups' => '1',
                 'cust_group' => 0,
-                'price' => $realPrice,
-                'price_qty' => (int) $price['qty'],
-                'website_price' => $price['price'],
+                'price' => $price,
+                'price_qty' => (int) $tierPrice['qty'],
+                'website_price' => $tierPrice['price'],
             ];
 
             $tierPriceList[] = $tierPriceData;
