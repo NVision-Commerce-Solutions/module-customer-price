@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Commerce365\CustomerPrice\Service\PriceBox;
 
 use Commerce365\CustomerPrice\Model\Config;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 
 class GetPrice
 {
     public function __construct(
         private readonly Config $config,
-        private readonly SessionFactory $customerSessionFactory,
+        private readonly Session $customerSession,
         private readonly RequestInterface $request
     ) {}
 
@@ -22,11 +22,11 @@ class GetPrice
             return $default;
         }
 
-        if (!$this->config->isHidePricesGuest() && !$this->customerSessionFactory->create()->isLoggedIn()) {
+        if (!$this->config->isHidePricesGuest() && !$this->customerSession->isLoggedIn()) {
             return $default;
         }
 
-        if ($this->config->isHidePricesGuest() && !$this->customerSessionFactory->create()->isLoggedIn()) {
+        if ($this->config->isHidePricesGuest() && !$this->customerSession->isLoggedIn()) {
             return '';
         }
 

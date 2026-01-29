@@ -12,12 +12,12 @@ use Commerce365\CustomerPrice\Service\GetProductPriceData;
 use Commerce365\CustomerPrice\Service\IsPriceCallAvailable;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 
 class ProductPrice
 {
     public function __construct(
-        private readonly SessionFactory $customerSessionFactory,
+        private readonly Session $customerSession,
         private readonly GetProductPriceData $getProductPriceData,
         private readonly GetMinimalSalableQty $getMinimalSalableQty,
         private readonly GetPriceForQuantity $getPriceForQuantity,
@@ -37,7 +37,7 @@ class ProductPrice
         }
 
         try {
-            $customerId = $this->customerSessionFactory->create()->getCustomerId();
+            $customerId = $this->customerSession->getCustomerId();
 
             $priceData = $this->getProductPriceData->execute($subject->getId(), $customerId);
             if ($this->config->useMinSalableQty()) {
@@ -86,7 +86,7 @@ class ProductPrice
         try {
             $priceData = $this->getProductPriceData->execute(
                 $subject->getId(),
-                $this->customerSessionFactory->create()->getCustomerId()
+                $this->customerSession->getCustomerId()
             );
 
             if (!$priceData->getSpecialPrice()) {
