@@ -23,6 +23,10 @@ class GetProductIdsForRequest
             if ($productType !== Type::DEFAULT_TYPE && $productType !== Type::TYPE_VIRTUAL) {
                 $childrenIds = $product->getTypeInstance()->getChildrenIds($product->getId());
                 $childrenIds = array_shift($childrenIds);
+
+                //$childrenIds should be always [[]] but in case of an incorrect return type, we add this check
+                if (empty($childrenIds)) { continue; }
+
                 foreach ($childrenIds as $childrenId) {
                     $productIds[] = $childrenId;
                 }
