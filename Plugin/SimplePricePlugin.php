@@ -8,12 +8,12 @@ use Commerce365\CustomerPrice\Model\Config;
 use Commerce365\CustomerPrice\Plugin\Frontend\Product;
 use Commerce365\CustomerPrice\Service\GetPriceForQuantity;
 use Magento\Catalog\Model\Product\Type\Price;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 
 class SimplePricePlugin
 {
     public function __construct(
-        private readonly SessionFactory $customerSessionFactory,
+        private readonly Session $customerSession,
         private readonly GetPriceForQuantity $getPriceForQuantity,
         private readonly Config $config
     ) {}
@@ -31,7 +31,7 @@ class SimplePricePlugin
             return $result;
         }
 
-        $customerId = $this->customerSessionFactory->create()->getCustomerId();
+        $customerId = $this->customerSession->getCustomerId();
         if (!$customerId) {
             return $result;
         }
