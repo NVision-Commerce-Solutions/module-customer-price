@@ -6,7 +6,7 @@ namespace Commerce365\CustomerPrice\Service\Request;
 
 use Commerce365\Core\Model\AdvancedConfig;
 use Commerce365\Core\Service\Request\PostFactory;
-use Commerce365\CustomerPrice\Service\CurrentStore;
+use Commerce365\Core\Service\CurrentStore;
 use Commerce365\CustomerPrice\Service\Customer\CurrencyResolver;
 
 class GetCustomerPrices implements GetCustomerPricesInterface
@@ -20,12 +20,13 @@ class GetCustomerPrices implements GetCustomerPricesInterface
 
     public function execute($productIds, $customerId)
     {
-        $post = $this->postFactory->create($this->currentStore->getId());
+        $storeId = $this->currentStore->getId();
+        $post = $this->postFactory->create($storeId);
 
         $priceData = $post->execute($this->getMethod(), [
             'json' => $this->getJson($customerId, $productIds),
             'allow_redirects'=> ['strict' => true]
-        ]);
+        ], $storeId);
 
         return !empty($priceData['priceLists']) ? $priceData['priceLists'] : [];
     }

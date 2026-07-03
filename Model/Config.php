@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Model;
 
-use Commerce365\CustomerPrice\Service\CurrentStore;
+use Commerce365\Core\Service\CurrentStore;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
