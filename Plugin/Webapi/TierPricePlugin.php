@@ -28,7 +28,7 @@ class TierPricePlugin
 
     public function afterGetTierPriceList(TierPrice $subject, $result)
     {
-        $customerId = $this->customerSessionFactory->create()->getCustomerId();
+        $customerId = $this->customerSession->getCustomerId();
         if (!$customerId) {
             return $result;
         }

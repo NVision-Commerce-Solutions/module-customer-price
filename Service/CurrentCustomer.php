@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Commerce365\CustomerPrice\Service;
 
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 
 class CurrentCustomer
 {
     private int $currentCustomerId = 0;
 
-    public function __construct(private readonly SessionFactory $sessionFactory) {}
+    public function __construct(private readonly Session $session) {}
 
     public function setId(string $customerId): void
     {
@@ -24,7 +24,7 @@ class CurrentCustomer
     public function getId(): int
     {
         if (!$this->exists()) {
-            return (int) $this->sessionFactory->create()->getCustomerId();
+            return (int) $this->session->getCustomerId();
         }
 
         return $this->currentCustomerId;

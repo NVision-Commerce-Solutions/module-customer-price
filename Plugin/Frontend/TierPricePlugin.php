@@ -6,12 +6,12 @@ namespace Commerce365\CustomerPrice\Plugin\Frontend;
 
 use Commerce365\CustomerPrice\Model\Config;
 use Magento\Catalog\Pricing\Price\TierPrice;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 
 class TierPricePlugin
 {
     public function __construct(
-        private readonly SessionFactory $customerSessionFactory,
+        private readonly Session $customerSession,
         private readonly Config $config
     ) {}
 
@@ -21,7 +21,7 @@ class TierPricePlugin
             return [];
         }
 
-        if (!$this->customerSessionFactory->create()->isLoggedIn() && $this->config->isHidePricesGuest()) {
+        if (!$this->customerSession->isLoggedIn() && $this->config->isHidePricesGuest()) {
             return [];
         }
 

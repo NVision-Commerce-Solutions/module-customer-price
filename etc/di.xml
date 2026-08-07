@@ -83,4 +83,51 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- Session Proxy configuration to avoid early instantiation and repeated DB queries -->
+    <type name="Commerce365\CustomerPrice\Plugin\ProductPrice">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Plugin\SimplePricePlugin">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\CurrentCustomer">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\IsPriceCallAvailable">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Service\PriceBox\GetPrice">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Plugin\Webapi\TierPricePlugin">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Plugin\Frontend\TierPricePlugin">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Plugin\Frontend\ProductPlugin">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Commerce365\CustomerPrice\Plugin\Frontend\ProductListPricesPreloadToCache">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

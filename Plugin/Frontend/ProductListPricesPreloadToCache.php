@@ -8,7 +8,7 @@ use Commerce365\CustomerPrice\Model\Config;
 use Commerce365\CustomerPrice\Service\GetPriceCollectionForProducts;
 use Commerce365\CustomerPrice\Service\GetProductIdsForRequest;
 use Magento\Catalog\Block\Product\ListProduct;
-use Magento\Customer\Model\SessionFactory;
+use Magento\Customer\Model\Session;
 
 class ProductListPricesPreloadToCache
 {
@@ -16,7 +16,7 @@ class ProductListPricesPreloadToCache
         private readonly Config $config,
         private readonly GetProductIdsForRequest $getProductIdsForRequest,
         private readonly GetPriceCollectionForProducts $getPriceCollection,
-        private readonly SessionFactory $sessionFactory
+        private readonly Session $session
     ) {}
 
     /**
@@ -26,7 +26,7 @@ class ProductListPricesPreloadToCache
      */
     public function afterGetLoadedProductCollection(ListProduct $subject, $result)
     {
-        $session = $this->sessionFactory->create();
+        $session = $this->session;
         if (!$this->config->isCachingEnabled() || !$session->getCustomerId()) {
             return $result;
         }
