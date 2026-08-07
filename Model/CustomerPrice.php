@@ -5,7 +5,7 @@ namespace Commerce365\CustomerPrice\Model;
 use Commerce365\CustomerPrice\Api\CustomerPriceInterface;
 use Commerce365\CustomerPrice\Service\Cache\HighLevelCacheWrapper;
 use Commerce365\CustomerPrice\Service\CurrentCustomer;
-use Commerce365\CustomerPrice\Service\CurrentStore;
+use Commerce365\Core\Service\CurrentStore;
 use Commerce365\CustomerPrice\Service\GetProductCollectionWithCustomerPrices;
 use Exception;
 use Psr\Log\LoggerInterface;

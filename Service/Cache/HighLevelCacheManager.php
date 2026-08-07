@@ -9,7 +9,7 @@ use Commerce365\CustomerPrice\Model\Command\GetPreparedPriceData;
 use Commerce365\CustomerPrice\Model\Command\SetPreparedPriceData;
 use Commerce365\CustomerPrice\Model\Config;
 use Commerce365\CustomerPrice\Service\CurrentCustomer;
-use Commerce365\CustomerPrice\Service\CurrentStore;
+use Commerce365\Core\Service\CurrentStore;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Serialize\SerializerInterface;
 

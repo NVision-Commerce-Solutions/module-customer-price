@@ -18,28 +18,30 @@ class GetPriceForQuantity
     public function execute(Product $product, $customerId, $qty = null)
     {
         $priceData = $this->getProductPriceData->execute($product->getId(), $customerId);
+        $basePrice = $priceData->getPrice() > 0 ? (float)$priceData->getPrice() : (float)$product->getPrice();
+
         if (empty($priceData->getTierPrices())) {
             if ($qty !== null) {
-                return $priceData->getPrice() > 0 ? $priceData->getPrice() : $product->getPrice();
+                return $basePrice;
             }
 
             return [
                 [
-                    'price' => $priceData->getPrice(),
-                    'website_price' => $priceData->getPrice(),
+                    'price' => $basePrice,
+                    'website_price' => $basePrice,
                     'price_qty' => 1,
                     'cust_group' => $this->getAllCustomerGroupsId(),
                 ]
             ];
         }
 
-        return $this->getPriceByQtyAndPriceData($priceData, $qty);
+        return $this->getPriceByQtyAndPriceData($priceData, $qty, $basePrice);
     }
 
-    public function getPriceByQtyAndPriceData(CachedPrice $priceData, $qty)
+    public function getPriceByQtyAndPriceData(CachedPrice $priceData, $qty, ?float $basePrice = null)
     {
         $prevQty = 0;
-        $prevPrice = $priceData->getPrice();
+        $prevPrice = $basePrice ?? $priceData->getPrice();
         foreach ($priceData->getTierPrices() as $tierPrice) {
             if ($qty < $tierPrice['qty']) {
                 // tier is higher than product qty
