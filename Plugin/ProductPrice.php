@@ -66,7 +66,8 @@ class ProductPrice
     {
         $minSalableQty = $this->getMinimalSalableQty->execute($product);
         if ($minSalableQty > 1) {
-            return $this->getPriceForQuantity->getPriceByQtyAndPriceData($priceData, $minSalableQty);
+            $basePrice = $priceData->getPrice() > 0 ? (float)$priceData->getPrice() : (float)$product->getPrice();
+            return $this->getPriceForQuantity->getPriceByQtyAndPriceData($priceData, $minSalableQty, $basePrice);
         }
 
         return 0;
